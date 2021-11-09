@@ -14,8 +14,10 @@ on:
   repository_dispatch:
   workflow_dispatch:
     inputs:
-      ssh: true
-      
+      ssh:
+        description: 'SSH connection to Actions'
+        required: true
+        default: 'false'
 
 env:
   REPO_URL: https://github.com/Lienol/openwrt
