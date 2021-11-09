@@ -136,7 +136,7 @@ jobs:
         path: ${{ env.FIRMWARE }}
 
     - name: Push .config file
-      if: steps.organize.outputs.status == 'success' && env.UPLOAD_COWTRANSFER == 'true' && !cancelled()
+      if: steps.organize.outputs.status == 'success'
       run: |
         cp -f openwrt/.config ./$CONFIG_FILE
         git config --global user.email "5929170+70599@users.noreply.github.com"
