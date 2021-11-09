@@ -75,7 +75,7 @@ jobs:
 
     - name: Load custom configuration
       run: |
-        [ -e files ] && mv files openwrt/files
+        [ -e files ] && cp -r files openwrt/files
         [ -e $CONFIG_FILE ] && cp $CONFIG_FILE openwrt/.config
         chmod +x $DIY_P2_SH
         cd openwrt
@@ -139,6 +139,8 @@ jobs:
       if: steps.organize.outputs.status == 'success' && env.UPLOAD_COWTRANSFER == 'true' && !cancelled()
       run: |
         cp -f openwrt/.config ./$CONFIG_FILE
+        git config --global user.email "5929170+70599@users.noreply.github.com"
+        git config --global user.name "automator"
         git add .
         git commit -m 'update config file'
         git push
