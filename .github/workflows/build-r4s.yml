@@ -18,7 +18,10 @@ on:
         description: 'SSH connection to Actions'
         required: true
         default: 'false'
-
+      update_config:
+        description: 'Update config file'
+        required: true
+        default: 'true'
 env:
   REPO_URL: https://github.com/Lienol/openwrt
   REPO_BRANCH: main
@@ -63,7 +66,7 @@ jobs:
 
     - name: Load custom feeds
       run: |
-        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
+        [ -e $FEEDS_CONF ] && cp -f $FEEDS_CONF openwrt/feeds.conf.default
         chmod +x $DIY_P1_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P1_SH
@@ -77,7 +80,7 @@ jobs:
     - name: Load custom configuration
       run: |
         [ -e files ] && mv files openwrt/files
-        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
+        [ -e $CONFIG_FILE ] && cp $CONFIG_FILE openwrt/.config
         chmod +x $DIY_P2_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
@@ -135,6 +138,14 @@ jobs:
       with:
         name: OpenWrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
+
+    - name: Push .config file
+      if: (github.event.inputs.update_config == 'true' && github.event.inputs.update_config  != 'false')
+      run: |
+        cp -f openwrt/.config ./$CONFIG_FILE
+        git add .
+        git commit -m 'update config file'
+        git push
 
     - name: Upload firmware to cowtransfer
       id: cowtransfer
