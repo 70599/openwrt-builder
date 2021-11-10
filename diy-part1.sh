@@ -16,3 +16,11 @@
 # Add a feed source
 #echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
 #echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall' >>feeds.conf.default
+
+# udp2raw
+cd openwrt/package
+git clone https://github.com/sensec/luci-app-udp2raw.git
+git clone https://github.com/sensec/openwrt-udp2raw.git
+cd luci-app-udp2raw/tools/po2lmo
+make
+sudo make install

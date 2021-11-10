@@ -35,7 +35,7 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout
@@ -94,7 +94,7 @@ jobs:
         git config --global user.email "5929170+70599@users.noreply.github.com"
         git config --global user.name "automator"
         git add .
-        git commit -m 'update config file'
+        git commit -m "update ${{ github.event.inputs.target }} config file"
         git push
 
     - name: Delete workflow runs
