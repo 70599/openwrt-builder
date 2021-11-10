@@ -130,7 +130,7 @@ jobs:
         path: ${{ env.FIRMWARE }}
 
     - name: Send complete notification
-      if: steps.organize.outputs.status == 'success' && env.UPLOAD_COWTRANSFER == 'true' && !cancelled()
+      if: steps.organize.outputs.status == 'success'
       run: |
         curl -X POST \
           -H 'Content-Type: application/json' \
