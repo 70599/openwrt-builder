@@ -8,21 +8,22 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: Build OpenWrt for x86_64
+name: Build OpenWrt
 
 on:
   repository_dispatch:
   workflow_dispatch:
     inputs:
-      ssh:
-        description: 'SSH connection to Actions'
+      target:
+        description: 'Target platform'
         required: true
-        default: '0'
+        default: '[r4s],x86,k3'
+
 env:
   REPO_URL: https://github.com/Lienol/openwrt
   REPO_BRANCH: main
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: x86.config
+  CONFIG_FILE: ${{ github.event.inputs.target }}.config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
   UPLOAD_BIN_DIR: false
@@ -34,7 +35,7 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout
@@ -80,13 +81,6 @@ jobs:
         chmod +x $DIY_P2_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
-
-    - name: SSH connection to Actions
-      uses: P3TERX/ssh2actions@v1.0.0
-      if: (github.event.inputs.ssh == '1' && github.event.inputs.ssh  != '0') || contains(github.event.action, 'ssh')
-      env:
-        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
 
     - name: Download package
       id: package
@@ -135,22 +129,12 @@ jobs:
         name: OpenWrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
 
-    - name: Push .config file
-      if: steps.organize.outputs.status == 'success'
-      run: |
-        cp -f openwrt/.config ./$CONFIG_FILE
-        git config --global user.email "5929170+70599@users.noreply.github.com"
-        git config --global user.name "automator"
-        git add .
-        git commit -m 'update config file'
-        git push
-
     - name: Send complete notification
       if: steps.organize.outputs.status == 'success' && env.UPLOAD_COWTRANSFER == 'true' && !cancelled()
       run: |
         curl -X POST \
           -H 'Content-Type: application/json' \
-          -d '{"chat_id": "${{ secrets.TELEGRAM_CHAT_ID }}", "text": "[x86] 固件编译完成"}' \
+          -d '{"chat_id": "${{ secrets.TELEGRAM_CHAT_ID }}", "text": "[${{ github.event.inputs.target }}] 固件编译完成"}' \
           https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage
 
     - name: Upload firmware to cowtransfer
