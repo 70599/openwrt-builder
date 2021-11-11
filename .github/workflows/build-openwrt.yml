@@ -90,7 +90,7 @@ jobs:
         key: ${{ runner.os }}-${{ github.event.inputs.target }}-dl
 
     - name: Download package
-      if steps.cache-dl-dir.outputs.cache-hit != 'true'
+      if: steps.cache-dl-dir.outputs.cache-hit != 'true'
       id: package
       run: |
         cd openwrt
