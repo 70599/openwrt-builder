@@ -105,9 +105,7 @@ jobs:
       with:
         path: |
           openwrt/build_dir
-          openwrt/staging_dir
           openwrt/toolchain
-          openwrt/tmp
         key: ${{ runner.os }}-${{ github.event.inputs.target }}-build
 
     - name: Compile the firmware
@@ -148,14 +146,6 @@ jobs:
         name: OpenWrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
 
-    - name: Send complete notification
-      if: steps.organize.outputs.status == 'success'
-      run: |
-        curl -X POST \
-          -H 'Content-Type: application/json' \
-          -d '{"chat_id": "${{ secrets.TELEGRAM_CHAT_ID }}", "text": "[${{ github.event.inputs.target }}] 固件编译完成"}' \
-          https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage
-
     - name: Upload firmware to cowtransfer
       id: cowtransfer
       if: steps.organize.outputs.status == 'success' && env.UPLOAD_COWTRANSFER == 'true' && !cancelled()
@@ -193,6 +183,14 @@ jobs:
         tag_name: ${{ steps.tag.outputs.release_tag }}
         body_path: release.txt
         files: ${{ env.FIRMWARE }}/*
+
+    - name: Send complete notification
+      if: steps.organize.outputs.status == 'success'
+      run: |
+        curl -X POST \
+          -H 'Content-Type: application/json' \
+          -d '{"chat_id": "${{ secrets.TELEGRAM_CHAT_ID }}", "text": "[${{ github.event.inputs.target }}] 固件编译完成"}' \
+          https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage
 
     - name: Delete workflow runs
       uses: GitRML/delete-workflow-runs@main
