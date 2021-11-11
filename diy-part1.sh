@@ -18,9 +18,14 @@
 #echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall' >>feeds.conf.default
 
 # udp2raw
-cd openwrt/package
+cd $GITHUB_WORKSPACE/openwrt/package
 git clone https://github.com/sensec/luci-app-udp2raw.git
 git clone https://github.com/sensec/openwrt-udp2raw.git
 cd luci-app-udp2raw/tools/po2lmo
 make
 sudo make install
+
+# OpenClash
+git clone --depth 1 https://github.com/vernesong/OpenClash.git /tmp/OpenClash
+mv /tmp/OpenClash/luci-app-openclash $GITHUB_WORKSPACE/openwrt/package/
+rm -rf /tmp/OpenClash
