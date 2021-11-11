@@ -21,11 +21,11 @@ on:
       repo:
         description: 'Source code repo'
         required: true
-        default: '[https://github.com/Lienol/openwrt],https://github.com/friendlyarm/friendlywrt,https://github.com/coolsnowwolf/lede'
+        default: '[coolsnowwolf/lede],Lienol/openwrt,friendlyarm/friendlywrt'
 
 env:
-  REPO_URL: ${{ github.event.inputs.repo }}
-  FEEDS_CONF: feeds.conf.default
+  REPO_URL: https://github.com/${{ github.event.inputs.repo }}
+  FEEDS_CONF: feeds.conf
   CONFIG_FILE: ${{ github.event.inputs.target }}.config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
@@ -66,7 +66,7 @@ jobs:
 
     - name: Load custom feeds
       run: |
-        [ -e $FEEDS_CONF ] && cp -f $FEEDS_CONF openwrt/feeds.conf.default
+        [ -e $FEEDS_CONF ] && cp -f $FEEDS_CONF openwrt/feeds.conf
         chmod +x $DIY_P1_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P1_SH
@@ -102,14 +102,27 @@ jobs:
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
 
-    - name: Cache build dir
-      id: cache-build-dir
+    - name: Cache build_dir
+      id: cache-build_dir
       uses: actions/cache@v2.1.6
       with:
-        path: |
-          openwrt/build_dir
+        path: openwrt/build_dir
           openwrt/toolchain
-        key: ${{ runner.os }}-${{ github.event.inputs.target }}-build
+        key: ${{ runner.os }}-${{ github.event.inputs.target }}-build_dir
+
+    - name: Cache staging_dir
+      id: cache-staging_dir
+      uses: actions/cache@v2.1.6
+      with:
+        path: openwrt/staging_dir
+        key: ${{ runner.os }}-${{ github.event.inputs.target }}-staging_dir
+
+    - name: Cache toolchain
+      id: cache-toolchain
+      uses: actions/cache@v2.1.6
+      with:
+        path: openwrt/toolchain
+        key: ${{ runner.os }}-${{ github.event.inputs.target }}-toolchain
 
     - name: Compile the firmware
       id: compile
