@@ -13,8 +13,5 @@
 # Modify default IP
 sed -i 's/192.168.1.1/10.10.0.1/g' package/base-files/files/bin/config_generate
 
-# add fish to shells
-echo '/usr/bin/fish' >> package/base-files/files/etc/shells
-
 # change default shell to fish
 sed -i 's|/bin/ash|/usr/bin/fish|g' package/base-files/files/etc/passwd

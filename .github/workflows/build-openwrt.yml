@@ -82,7 +82,15 @@ jobs:
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
 
+    - name: Cache dl dir
+      id: cache-dl-dir
+      uses: actions/cache@v2.1.6
+      with:
+        path: openwrt/dl
+        key: ${{ runner.os }}-${{ github.event.inputs.target }}-dl
+
     - name: Download package
+      if steps.cache-dl-dir.outputs.cache-hit != 'true'
       id: package
       run: |
         cd openwrt
@@ -100,7 +108,7 @@ jobs:
           openwrt/staging_dir
           openwrt/toolchain
           openwrt/tmp
-        key: ${{ runner.os }}-${{ github.event.inputs.target }}
+        key: ${{ runner.os }}-${{ github.event.inputs.target }}-build
 
     - name: Compile the firmware
       id: compile
