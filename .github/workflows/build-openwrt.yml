@@ -95,7 +95,11 @@ jobs:
       id: cache-build-dir
       uses: actions/cache@v2
       with:
-        path: openwrt/{build_dir,staging_dir,toolchain,tmp}
+        path: |
+          openwrt/build_dir
+          openwrt/staging_dir
+          openwrt/toolchain
+          openwrt/tmp
         key: ${{ runner.os }}-${{ github.event.inputs.target }}
 
     - name: Compile the firmware
