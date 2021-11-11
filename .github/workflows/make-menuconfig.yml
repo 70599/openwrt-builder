@@ -13,9 +13,14 @@ name: make menuconfig
 on:
   repository_dispatch:
   workflow_dispatch:
+    inputs:
+      repo:
+        description: 'Source code repo'
+        required: true
+        default: '[https://github.com/Lienol/openwrt],https://github.com/friendlyarm/friendlywrt,https://github.com/coolsnowwolf/lede'
 
 env:
-  REPO_URL: https://github.com/Lienol/openwrt
+  REPO_URL: ${{ github.event.inputs.repo }}
   REPO_BRANCH: main
   FEEDS_CONF: feeds.conf.default
   DIY_P1_SH: diy-part1.sh

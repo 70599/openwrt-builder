@@ -18,9 +18,13 @@ on:
         description: 'Target platform'
         required: true
         default: '[r4s],x86,k3'
+      repo:
+        description: 'Source code repo'
+        required: true
+        default: '[https://github.com/Lienol/openwrt],https://github.com/friendlyarm/friendlywrt,https://github.com/coolsnowwolf/lede'
 
 env:
-  REPO_URL: https://github.com/Lienol/openwrt
+  REPO_URL: ${{ github.event.inputs.repo }}
   REPO_BRANCH: main
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: ${{ github.event.inputs.target }}.config
