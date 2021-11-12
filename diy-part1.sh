@@ -31,7 +31,7 @@ svn co https://github.com/zcy85611/Openwrt-Package/trunk/udpspeeder-tunnel
 
 popd
 
-pushd $GITHUB_WORKSPACE/openwrt
+cd $GITHUB_WORKSPACE/openwrt
 
 # cpufreq
 rm -rf package/lean/luci-app-cpufreq
@@ -61,6 +61,4 @@ rm -rf /tmp/OpenClash
 git clone https://github.com/openwrt-dev/po2lmo.git
 pushd po2lmo
 make && sudo make install
-popd
-
 popd
