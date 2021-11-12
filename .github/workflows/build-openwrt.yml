@@ -91,7 +91,7 @@ jobs:
       uses: actions/cache@v2.1.6
       with:
         path: openwrt/dl
-        key: ${{ runner.os }}-${{ github.event.inputs.target }}-dl
+        key: ${{ runner.os }}-${{ github.event.inputs.target }}-dl-${{ hashFiles('openwrt/.git/refs/heads/master') }}
 
     - name: Download package
       if: steps.cache-dl-dir.outputs.cache-hit != 'true'
@@ -108,28 +108,28 @@ jobs:
       uses: actions/cache@v2.1.6
       with:
         path: openwrt/build_dir
-        key: ${{ runner.os }}-${{ github.event.inputs.target }}-build_dir
+        key: ${{ runner.os }}-${{ github.event.inputs.target }}-build_dir-${{ hashFiles('openwrt/.git/refs/heads/master') }}
 
     - name: Cache staging_dir
       id: cache-staging_dir
       uses: actions/cache@v2.1.6
       with:
         path: openwrt/staging_dir
-        key: ${{ runner.os }}-${{ github.event.inputs.target }}-staging_dir
+        key: ${{ runner.os }}-${{ github.event.inputs.target }}-staging_dir-${{ hashFiles('openwrt/.git/refs/heads/master') }}
 
     - name: Cache toolchain
       id: cache-toolchain
       uses: actions/cache@v2.1.6
       with:
         path: openwrt/toolchain
-        key: ${{ runner.os }}-${{ github.event.inputs.target }}-toolchain
+        key: ${{ runner.os }}-${{ github.event.inputs.target }}-toolchain-${{ hashFiles('openwrt/.git/refs/heads/master') }}
 
     - name: Cache tmp
       id: cache-tmp
       uses: actions/cache@v2.1.6
       with:
         path: openwrt/tmp
-        key: ${{ runner.os }}-${{ github.event.inputs.target }}-tmp
+        key: ${{ runner.os }}-${{ github.event.inputs.target }}-tmp-${{ hashFiles('openwrt/.git/refs/heads/master') }}
 
     - name: Compile the firmware
       id: compile
