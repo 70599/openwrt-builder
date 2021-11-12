@@ -16,11 +16,41 @@
 # Add a feed source
 echo 'src-git lienol https://github.com/Lienol/openwrt-package.git;main' >> feeds.conf.default
 echo 'src-git diy1 https://github.com/xiaorouji/openwrt-passwall.git;main' >> feeds.conf.default
+echo 'src-git community https://github.com/openwrt/packages' >> feeds.conf.default
 
-# udp2raw
-cd $GITHUB_WORKSPACE/openwrt/package
-git clone https://github.com/sensec/luci-app-udp2raw.git
-git clone https://github.com/sensec/openwrt-udp2raw.git
+mkdir $GITHUB_WORKSPACE/openwrt/package/additional
+pushd $GITHUB_WORKSPACE/openwrt/package/additional
+
+# remove doubled packages
+rm -rf ../package/lean/{luci-app-verysync,verysync}
+
+# udptools
+svn co https://github.com/zcy85611/Openwrt-Package/trunk/luci-udptools
+svn co https://github.com/zcy85611/Openwrt-Package/trunk/udp2raw
+svn co https://github.com/zcy85611/Openwrt-Package/trunk/udpspeeder-tunnel
+
+popd
+
+pushd $GITHUB_WORKSPACE/openwrt
+
+# cpufreq
+rm -rf package/lean/luci-app-cpufreq
+svn co https://github.com/immortalwrt/luci/trunk/applications/luci-app-cpufreq feeds/luci/applications/luci-app-cpufreq
+ln -sf ../../../feeds/luci/applications/luci-app-cpufreq ./package/feeds/luci/luci-app-cpufreq
+sed -i 's,1608,1800,g' feeds/luci/applications/luci-app-cpufreq/root/etc/uci-defaults/cpufreq
+sed -i 's,2016,2208,g' feeds/luci/applications/luci-app-cpufreq/root/etc/uci-defaults/cpufreq
+sed -i 's,1512,1608,g' feeds/luci/applications/luci-app-cpufreq/root/etc/uci-defaults/cpufreq
+
+# Pandownload
+pushd package/lean
+svn co https://github.com/immortalwrt/packages/trunk/net/pandownload-fake-server
+popd
+
+# Fix libssh
+pushd feeds/packages/libs
+rm -rf libssh
+svn co https://github.com/openwrt/packages/trunk/libs/libssh
+popd
 
 # OpenClash
 git clone --depth 1 https://github.com/vernesong/OpenClash.git /tmp/OpenClash
@@ -31,4 +61,6 @@ rm -rf /tmp/OpenClash
 git clone https://github.com/openwrt-dev/po2lmo.git
 pushd po2lmo
 make && sudo make install
+popd
+
 popd
