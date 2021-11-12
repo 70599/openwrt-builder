@@ -108,7 +108,6 @@ jobs:
       uses: actions/cache@v2.1.6
       with:
         path: openwrt/build_dir
-          openwrt/toolchain
         key: ${{ runner.os }}-${{ github.event.inputs.target }}-build_dir
 
     - name: Cache staging_dir
@@ -216,12 +215,6 @@ jobs:
           -H 'Content-Type: application/json' \
           -d '{"chat_id": "${{ secrets.TELEGRAM_CHAT_ID }}", "text": "[${{ github.event.inputs.target }}] 固件编译完成"}' \
           https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage
-
-    - name: Delete workflow runs
-      uses: GitRML/delete-workflow-runs@main
-      with:
-        retain_days: 1
-        keep_minimum_runs: 3
 
     - name: Remove old Releases
       uses: dev-drprasad/delete-older-releases@v0.1.0
