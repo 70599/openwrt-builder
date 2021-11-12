@@ -18,4 +18,4 @@ sed -i 's|/bin/ash|/usr/bin/fish|g' package/base-files/files/etc/passwd
 
 # switch kernel version from 5.4 to 5.10
 sed -i 's|5.4|5.10|g' target/linux/x86/Makefile
-sed -i 's|5.4|5.10|g' target/linux/rockchip/Makefile
+# sed -i 's|5.4|5.10|g' target/linux/rockchip/Makefile
