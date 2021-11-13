@@ -16,8 +16,6 @@
 # Add a feed source
 echo 'src-git lienol https://github.com/Lienol/openwrt-package.git;main' >> feeds.conf.default
 echo 'src-git diy1 https://github.com/xiaorouji/openwrt-passwall.git;main' >> feeds.conf.default
-# echo 'src-git community https://github.com/openwrt/packages' >> feeds.conf.default
-sed -i 's|coolsnowwolf/packages|openwrt/packages|g' feeds.conf.default
 
 # remove doubled packages
 rm -rf package/lean/{luci-app-cpufreq,luci-app-verysync,verysync}
@@ -26,9 +24,11 @@ rm -rf package/lean/{luci-app-cpufreq,luci-app-verysync,verysync}
 pushd package/additional
 
 # udptools
-svn co https://github.com/zcy85611/Openwrt-Package/trunk/luci-udptools
+# svn co https://github.com/zcy85611/Openwrt-Package/trunk/luci-udptools
 svn co https://github.com/zcy85611/Openwrt-Package/trunk/udp2raw
-svn co https://github.com/zcy85611/Openwrt-Package/trunk/udpspeeder-tunnel
+# svn co https://github.com/zcy85611/Openwrt-Package/trunk/udpspeeder-tunnel
+git clone https://github.com/sensec/luci-app-udp2raw.git
+# git clone https://github.com/sensec/openwrt-udp2raw.git
 
 # OpenClash
 svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash
