@@ -37,8 +37,7 @@ rm -rf /tmp/OpenClash
 popd
 
 # cpufreq
-svn co https://github.com/immortalwrt/luci/trunk/applications/luci-app-cpufreq
-mv luci-app-cpufreq feeds/luci/applications/
+svn co https://github.com/immortalwrt/luci/trunk/applications/luci-app-cpufreq feeds/luci/applications/luci-app-cpufreq
 ln -sf feeds/luci/applications/luci-app-cpufreq package/feeds/luci/luci-app-cpufreq
 sed -i 's,1608,1800,g' feeds/luci/applications/luci-app-cpufreq/root/etc/uci-defaults/cpufreq
 sed -i 's,2016,2208,g' feeds/luci/applications/luci-app-cpufreq/root/etc/uci-defaults/cpufreq
