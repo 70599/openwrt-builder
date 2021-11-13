@@ -42,5 +42,6 @@ svn co https://github.com/openwrt/packages/trunk/utils/docker
 svn co https://github.com/openwrt/packages/trunk/utils/docker-compose
 svn co https://github.com/openwrt/packages/trunk/utils/dockerd
 popd
+
 ./scripts/feeds update packages
 ./scripts/feeds install -a -p packages
