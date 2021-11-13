@@ -19,3 +19,24 @@ sed -i 's|/bin/ash|/usr/bin/fish|g' package/base-files/files/etc/passwd
 # switch kernel version from 5.4 to 5.10
 # sed -i 's|5.4|5.10|g' target/linux/x86/Makefile
 # sed -i 's|5.4|5.10|g' target/linux/rockchip/Makefile
+
+# Add cpufreq
+[ -e feeds/luci/applications ] || mkdir -p feeds/luci/applications
+pushd feeds/luci/applications
+svn co https://github.com/immortalwrt/luci/trunk/applications/luci-app-cpufreq
+popd
+
+[ -e package/feeds/luci ] || mkdir -p package/feeds/luci
+pushd package/feeds/luci
+ln -sf ../../../feeds/luci/applications/luci-app-cpufreq ./
+sed -i 's,1608,1800,g' luci-app-cpufreq/root/etc/uci-defaults/cpufreq
+sed -i 's,2016,2208,g' luci-app-cpufreq/root/etc/uci-defaults/cpufreq
+sed -i 's,1512,1608,g' luci-app-cpufreq/root/etc/uci-defaults/cpufreq
+popd
+
+# Fix libssh
+[ -e feeds/packages/libs ] || mkdir -p feeds/packages/libs
+pushd feeds/packages/libs
+rm -rf libssh
+svn co https://github.com/openwrt/packages/trunk/libs/libssh
+popd

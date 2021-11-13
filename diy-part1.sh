@@ -34,34 +34,9 @@ git clone --depth 1 https://github.com/vernesong/OpenClash.git /tmp/OpenClash
 mv /tmp/OpenClash/luci-app-openclash ./
 rm -rf /tmp/OpenClash
 
-popd
-
-mkdir -p feeds/packages/libs
-
-# cpufreq
-[ -e feeds/luci/applications ] || mkdir -p feeds/luci/applications
-pushd feeds/luci/applications
-svn co https://github.com/immortalwrt/luci/trunk/applications/luci-app-cpufreq
-popd
-
-[ -e package/feeds/luci ] || mkdir -p package/feeds/luci
-pushd package/feeds/luci
-ln -sf ../../../feeds/luci/applications/luci-app-cpufreq ./
-sed -i 's,1608,1800,g' luci-app-cpufreq/root/etc/uci-defaults/cpufreq
-sed -i 's,2016,2208,g' luci-app-cpufreq/root/etc/uci-defaults/cpufreq
-sed -i 's,1512,1608,g' luci-app-cpufreq/root/etc/uci-defaults/cpufreq
-popd
-
 # Pandownload
-pushd package/lean
 svn co https://github.com/immortalwrt/packages/trunk/net/pandownload-fake-server
-popd
 
-# Fix libssh
-[ -e feeds/packages/libs ] || mkdir -p feeds/packages/libs
-pushd feeds/packages/libs
-rm -rf libssh
-svn co https://github.com/openwrt/packages/trunk/libs/libssh
 popd
 
 # po2lmo
