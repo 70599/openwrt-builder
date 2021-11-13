@@ -33,7 +33,9 @@ popd
 
 # cpufreq
 rm -rf package/lean/luci-app-cpufreq
-svn co https://github.com/immortalwrt/luci/trunk/applications/luci-app-cpufreq feeds/luci/applications/luci-app-cpufreq
+pushd feeds/luci/applications/
+svn co https://github.com/immortalwrt/luci/trunk/applications/luci-app-cpufreq
+popd
 ln -sf feeds/luci/applications/luci-app-cpufreq package/feeds/luci/luci-app-cpufreq
 sed -i 's,1608,1800,g' feeds/luci/applications/luci-app-cpufreq/root/etc/uci-defaults/cpufreq
 sed -i 's,2016,2208,g' feeds/luci/applications/luci-app-cpufreq/root/etc/uci-defaults/cpufreq
