@@ -37,12 +37,10 @@ popd
 
 # Replace docker packages
 pushd feeds/packages/utils
-rm -rf containerd docker docker-compose dockerd runc
-svn co https://github.com/openwrt/packages/trunk/utils/containerd
-svn co https://github.com/openwrt/packages/trunk/utils/docker
-svn co https://github.com/openwrt/packages/trunk/utils/docker-compose
-svn co https://github.com/openwrt/packages/trunk/utils/dockerd
-svn co https://github.com/openwrt/packages/trunk/utils/runc
+for pkg in containerd docker docker-compose dockerd runc; do
+  rm -rf $pkg
+  svn co https://github.com/openwrt/packages/trunk/utils/$pkg
+done
 popd
 
 ./scripts/feeds update packages
