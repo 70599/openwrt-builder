@@ -22,7 +22,7 @@ mkdir -p $GITHUB_WORKSPACE/openwrt/package/additional
 pushd $GITHUB_WORKSPACE/openwrt/package/additional
 
 # remove doubled packages
-rm -rf ../package/lean/{luci-app-verysync,verysync}
+rm -rf ../package/lean/{luci-app-cpufreq,luci-app-verysync,verysync}
 
 # udptools
 svn co https://github.com/zcy85611/Openwrt-Package/trunk/luci-udptools
@@ -32,8 +32,7 @@ svn co https://github.com/zcy85611/Openwrt-Package/trunk/udpspeeder-tunnel
 popd
 
 # cpufreq
-rm -rf package/lean/luci-app-cpufreq
-pushd feeds/luci/applications/
+pushd $GITHUB_WORKSPACE/openwrt/feeds/luci/applications
 svn co https://github.com/immortalwrt/luci/trunk/applications/luci-app-cpufreq
 popd
 ln -sf feeds/luci/applications/luci-app-cpufreq package/feeds/luci/luci-app-cpufreq
