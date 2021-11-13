@@ -30,9 +30,7 @@ svn co https://github.com/zcy85611/Openwrt-Package/trunk/udp2raw
 svn co https://github.com/zcy85611/Openwrt-Package/trunk/udpspeeder-tunnel
 
 # OpenClash
-git clone --depth 1 https://github.com/vernesong/OpenClash.git /tmp/OpenClash
-mv /tmp/OpenClash/luci-app-openclash ./
-rm -rf /tmp/OpenClash
+svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash
 
 # Pandownload
 svn co https://github.com/immortalwrt/packages/trunk/net/pandownload-fake-server
