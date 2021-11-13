@@ -16,6 +16,7 @@
 # Add a feed source
 echo 'src-git lienol https://github.com/Lienol/openwrt-package.git;main' >> feeds.conf.default
 echo 'src-git diy1 https://github.com/xiaorouji/openwrt-passwall.git;main' >> feeds.conf.default
+echo 'src-git immortalwrt https://github.com/immortalwrt/luci' >> feeds.conf.default
 echo 'src-git community https://github.com/openwrt/packages' >> feeds.conf.default
 
 mkdir -p $GITHUB_WORKSPACE/openwrt/package/additional
@@ -35,13 +36,6 @@ mv /tmp/OpenClash/luci-app-openclash ./
 rm -rf /tmp/OpenClash
 
 popd
-
-# cpufreq
-svn co https://github.com/immortalwrt/luci/trunk/applications/luci-app-cpufreq feeds/luci/applications/luci-app-cpufreq
-ln -sf feeds/luci/applications/luci-app-cpufreq package/feeds/luci/luci-app-cpufreq
-sed -i 's,1608,1800,g' feeds/luci/applications/luci-app-cpufreq/root/etc/uci-defaults/cpufreq
-sed -i 's,2016,2208,g' feeds/luci/applications/luci-app-cpufreq/root/etc/uci-defaults/cpufreq
-sed -i 's,1512,1608,g' feeds/luci/applications/luci-app-cpufreq/root/etc/uci-defaults/cpufreq
 
 # Pandownload
 pushd package/lean
