@@ -16,7 +16,8 @@
 # Add a feed source
 echo 'src-git lienol https://github.com/Lienol/openwrt-package.git;main' >> feeds.conf.default
 echo 'src-git diy1 https://github.com/xiaorouji/openwrt-passwall.git;main' >> feeds.conf.default
-echo 'src-git community https://github.com/openwrt/packages' >> feeds.conf.default
+# echo 'src-git community https://github.com/openwrt/packages' >> feeds.conf.default
+sed -i 's|coolsnowwolf/packages|openwrt/packages|g' feeds.conf.default
 
 # remove doubled packages
 rm -rf package/lean/{luci-app-cpufreq,luci-app-verysync,verysync}
