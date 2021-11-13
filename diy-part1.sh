@@ -21,8 +21,8 @@ echo 'src-git community https://github.com/openwrt/packages' >> feeds.conf.defau
 # remove doubled packages
 rm -rf package/lean/{luci-app-cpufreq,luci-app-verysync,verysync}
 
-mkdir -p $GITHUB_WORKSPACE/openwrt/package/additional
-pushd $GITHUB_WORKSPACE/openwrt/package/additional
+[ -e 'package/additional' ] || mkdir -p package/additional
+pushd package/additional
 
 # udptools
 svn co https://github.com/zcy85611/Openwrt-Package/trunk/luci-udptools
@@ -36,10 +36,14 @@ rm -rf /tmp/OpenClash
 
 popd
 
+mkdir -p feeds/packages/libs
+
 # cpufreq
+[ -e feeds/luci/applications ] || mkdir -p feeds/luci/applications
 pushd feeds/luci/applications
 svn co https://github.com/immortalwrt/luci/trunk/applications/luci-app-cpufreq
 popd
+[ -e package/feeds/luci ] || mkdir -p package/feeds/luci
 pushd package/feeds/luci
 ln -sf ../../../feeds/luci/applications/luci-app-cpufreq ./
 popd
@@ -50,6 +54,13 @@ sed -i 's,1512,1608,g' feeds/luci/applications/luci-app-cpufreq/root/etc/uci-def
 # Pandownload
 pushd package/lean
 svn co https://github.com/immortalwrt/packages/trunk/net/pandownload-fake-server
+popd
+
+# Fix libssh
+[ -e feeds/packages/libs ] || mkdir -p feeds/packages/libs
+pushd feeds/packages/libs
+rm -rf libssh
+svn co https://github.com/openwrt/packages/trunk/libs/libssh
 popd
 
 # po2lmo
