@@ -38,9 +38,6 @@ rm -rf /tmp/OpenClash
 popd
 
 # cpufreq
-pushd $GITHUB_WORKSPACE/openwrt/package/feeds/luci
-ln -sf ../../../feeds/luci/immortalwrt/applications/luci-app-cpufreq ./
-popd
 sed -i 's,1608,1800,g' feeds/immortalwrt/applications/luci-app-cpufreq/root/etc/uci-defaults/cpufreq
 sed -i 's,2016,2208,g' feeds/immortalwrt/applications/luci-app-cpufreq/root/etc/uci-defaults/cpufreq
 sed -i 's,1512,1608,g' feeds/immortalwrt/applications/luci-app-cpufreq/root/etc/uci-defaults/cpufreq
