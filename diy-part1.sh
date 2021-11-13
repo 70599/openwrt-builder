@@ -18,7 +18,7 @@ echo 'src-git lienol https://github.com/Lienol/openwrt-package.git;main' >> feed
 echo 'src-git diy1 https://github.com/xiaorouji/openwrt-passwall.git;main' >> feeds.conf.default
 echo 'src-git community https://github.com/openwrt/packages' >> feeds.conf.default
 
-mkdir $GITHUB_WORKSPACE/openwrt/package/additional
+mkdir -p $GITHUB_WORKSPACE/openwrt/package/additional
 pushd $GITHUB_WORKSPACE/openwrt/package/additional
 
 # remove doubled packages
@@ -30,8 +30,6 @@ svn co https://github.com/zcy85611/Openwrt-Package/trunk/udp2raw
 svn co https://github.com/zcy85611/Openwrt-Package/trunk/udpspeeder-tunnel
 
 popd
-
-cd $GITHUB_WORKSPACE/openwrt
 
 # cpufreq
 rm -rf package/lean/luci-app-cpufreq
@@ -54,10 +52,10 @@ popd
 
 # OpenClash
 git clone --depth 1 https://github.com/vernesong/OpenClash.git /tmp/OpenClash
-mv /tmp/OpenClash/luci-app-openclash $GITHUB_WORKSPACE/openwrt/package/
+mv /tmp/OpenClash/luci-app-openclash package/
 rm -rf /tmp/OpenClash
 
-# Add po2lmo
+# po2lmo
 git clone https://github.com/openwrt-dev/po2lmo.git
 pushd po2lmo
 make && sudo make install
