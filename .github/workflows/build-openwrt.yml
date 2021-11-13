@@ -212,7 +212,7 @@ jobs:
       run: |
         curl -X POST \
           -H 'Content-Type: application/json' \
-          -d '{"chat_id": "${{ secrets.TELEGRAM_CHAT_ID }}", "text": "[${{ github.event.inputs.target }}] 固件编译完成"}' \
+          -d '{"chat_id": "${{ secrets.TELEGRAM_CHAT_ID }}", "text": "✅ [${{ github.event.inputs.target }}] 固件编译完成"}' \
           https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage
 
     - name: Remove old Releases
