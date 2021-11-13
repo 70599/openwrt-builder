@@ -19,11 +19,11 @@ echo 'src-git diy1 https://github.com/xiaorouji/openwrt-passwall.git;main' >> fe
 echo 'src-git immortalwrt https://github.com/immortalwrt/luci' >> feeds.conf.default
 echo 'src-git community https://github.com/openwrt/packages' >> feeds.conf.default
 
+# remove doubled packages
+rm -rf package/lean/{luci-app-cpufreq,luci-app-verysync,verysync}
+
 mkdir -p $GITHUB_WORKSPACE/openwrt/package/additional
 pushd $GITHUB_WORKSPACE/openwrt/package/additional
-
-# remove doubled packages
-rm -rf ../package/lean/{luci-app-cpufreq,luci-app-verysync,verysync}
 
 # udptools
 svn co https://github.com/zcy85611/Openwrt-Package/trunk/luci-udptools
@@ -36,6 +36,12 @@ mv /tmp/OpenClash/luci-app-openclash ./
 rm -rf /tmp/OpenClash
 
 popd
+
+# cpufreq
+ln -sf feeds/immortalwrt/applications/luci-app-cpufreq package/feeds/luci/luci-app-cpufreq
+sed -i 's,1608,1800,g' feeds/immortalwrt/applications/luci-app-cpufreq/root/etc/uci-defaults/cpufreq
+sed -i 's,2016,2208,g' feeds/immortalwrt/applications/luci-app-cpufreq/root/etc/uci-defaults/cpufreq
+sed -i 's,1512,1608,g' feeds/immortalwrt/applications/luci-app-cpufreq/root/etc/uci-defaults/cpufreq
 
 # Pandownload
 pushd package/lean
