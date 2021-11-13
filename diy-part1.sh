@@ -29,12 +29,16 @@ svn co https://github.com/zcy85611/Openwrt-Package/trunk/luci-udptools
 svn co https://github.com/zcy85611/Openwrt-Package/trunk/udp2raw
 svn co https://github.com/zcy85611/Openwrt-Package/trunk/udpspeeder-tunnel
 
+# OpenClash
+git clone --depth 1 https://github.com/vernesong/OpenClash.git /tmp/OpenClash
+mv /tmp/OpenClash/luci-app-openclash ./
+rm -rf /tmp/OpenClash
+
 popd
 
 # cpufreq
-pushd $GITHUB_WORKSPACE/openwrt/feeds/luci/applications
 svn co https://github.com/immortalwrt/luci/trunk/applications/luci-app-cpufreq
-popd
+mv luci-app-cpufreq feeds/luci/applications/
 ln -sf feeds/luci/applications/luci-app-cpufreq package/feeds/luci/luci-app-cpufreq
 sed -i 's,1608,1800,g' feeds/luci/applications/luci-app-cpufreq/root/etc/uci-defaults/cpufreq
 sed -i 's,2016,2208,g' feeds/luci/applications/luci-app-cpufreq/root/etc/uci-defaults/cpufreq
@@ -50,11 +54,6 @@ pushd feeds/packages/libs
 rm -rf libssh
 svn co https://github.com/openwrt/packages/trunk/libs/libssh
 popd
-
-# OpenClash
-git clone --depth 1 https://github.com/vernesong/OpenClash.git /tmp/OpenClash
-mv /tmp/OpenClash/luci-app-openclash package/
-rm -rf /tmp/OpenClash
 
 # po2lmo
 git clone https://github.com/openwrt-dev/po2lmo.git
