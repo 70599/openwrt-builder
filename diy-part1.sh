@@ -38,10 +38,10 @@ rm -rf /tmp/OpenClash
 popd
 
 # cpufreq
-mv feeds/immortalwrt/applications/luci-app-cpufreq package/feeds/luci/
-sed -i 's,1608,1800,g' package/feeds/luci/luci-app-cpufreq/root/etc/uci-defaults/cpufreq
-sed -i 's,2016,2208,g' package/feeds/luci/luci-app-cpufreq/root/etc/uci-defaults/cpufreq
-sed -i 's,1512,1608,g' package/feeds/luci/luci-app-cpufreq/root/etc/uci-defaults/cpufreq
+ln -sf ../../../feeds/luci/immortalwrt/applications/luci-app-cpufreq ./package/feeds/luci/luci-app-cpufreq
+sed -i 's,1608,1800,g' feeds/immortalwrt/applications/luci-app-cpufreq/root/etc/uci-defaults/cpufreq
+sed -i 's,2016,2208,g' feeds/immortalwrt/applications/luci-app-cpufreq/root/etc/uci-defaults/cpufreq
+sed -i 's,1512,1608,g' feeds/immortalwrt/applications/luci-app-cpufreq/root/etc/uci-defaults/cpufreq
 
 # Pandownload
 pushd package/lean
