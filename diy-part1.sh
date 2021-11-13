@@ -21,7 +21,7 @@ echo 'src-git community https://github.com/openwrt/packages' >> feeds.conf.defau
 # remove doubled packages
 rm -rf package/lean/{luci-app-cpufreq,luci-app-verysync,verysync}
 
-[ -e 'package/additional' ] || mkdir -p package/additional
+[ -e package/additional ] || mkdir -p package/additional
 pushd package/additional
 
 # udptools
@@ -43,13 +43,14 @@ mkdir -p feeds/packages/libs
 pushd feeds/luci/applications
 svn co https://github.com/immortalwrt/luci/trunk/applications/luci-app-cpufreq
 popd
+
 [ -e package/feeds/luci ] || mkdir -p package/feeds/luci
 pushd package/feeds/luci
 ln -sf ../../../feeds/luci/applications/luci-app-cpufreq ./
+sed -i 's,1608,1800,g' luci-app-cpufreq/root/etc/uci-defaults/cpufreq
+sed -i 's,2016,2208,g' luci-app-cpufreq/root/etc/uci-defaults/cpufreq
+sed -i 's,1512,1608,g' luci-app-cpufreq/root/etc/uci-defaults/cpufreq
 popd
-sed -i 's,1608,1800,g' feeds/luci/applications/luci-app-cpufreq/root/etc/uci-defaults/cpufreq
-sed -i 's,2016,2208,g' feeds/luci/applications/luci-app-cpufreq/root/etc/uci-defaults/cpufreq
-sed -i 's,1512,1608,g' feeds/luci/applications/luci-app-cpufreq/root/etc/uci-defaults/cpufreq
 
 # Pandownload
 pushd package/lean
