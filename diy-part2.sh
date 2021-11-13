@@ -35,7 +35,7 @@ rm -rf libssh
 svn co https://github.com/openwrt/packages/trunk/libs/libssh
 popd
 
-# Replace with community-maintained packages
+# Replace docker packages
 pushd feeds/packages/utils
 rm -rf containerd docker docker-compose dockerd runc
 svn co https://github.com/openwrt/packages/trunk/utils/containerd
