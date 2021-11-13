@@ -15,9 +15,9 @@ on:
   workflow_dispatch:
     inputs:
       target:
-        description: 'Target platform'
+        description: 'Target image'
         required: true
-        default: '[r4s],x86,k3'
+        default: '[r4s],r4s_docker,x86,k3'
       repo:
         description: 'Source code repo'
         required: true
