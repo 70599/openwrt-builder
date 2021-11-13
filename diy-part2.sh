@@ -34,3 +34,13 @@ pushd feeds/packages/libs
 rm -rf libssh
 svn co https://github.com/openwrt/packages/trunk/libs/libssh
 popd
+
+# Replace docker packages
+pushd feeds/packages/utils
+rm -rf docker docker-compose dockerd
+svn co https://github.com/openwrt/packages/trunk/utils/docker
+svn co https://github.com/openwrt/packages/trunk/utils/docker-compose
+svn co https://github.com/openwrt/packages/trunk/utils/dockerd
+popd
+./scripts/feeds update packages
+./scripts/feeds install -a -p packages
