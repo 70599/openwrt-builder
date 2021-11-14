@@ -37,7 +37,7 @@ jobs:
 
   steps:
   - name: Checkout Armbian build script
-    use: actions/checkout@v2
+    uses: actions/checkout@v2
     with:
       repository: armbian/build
       path: build
