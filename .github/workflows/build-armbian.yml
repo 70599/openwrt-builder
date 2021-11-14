@@ -19,7 +19,11 @@ on:
       RELEASE:
         description: 'Release'
         required: true
-        default: '[bullseye],buster,stretch,hirsute,focal,bionic'
+        default: '[bullseye],buster,hirsute,focal'
+      BUILD_MINIMAL:
+        description: 'Build minimal'
+        required: true
+        default: '[no],yes'
       FIXED_IMAGE_SIZE:
         description: 'Fixed image size'
         required: true
@@ -29,6 +33,7 @@ env:
   BOARD: ${{ github.event.inputs.BOARD }}
   BRANCH: ${{ github.event.inputs.BRANCH }}
   RELEASE: ${{ github.event.inputs.RELEASE }}
+  BUILD_MINIMAL: ${{ github.event.inputs.BUILD_MINIMAL }}
   FIXED_IMAGE_SIZE: ${{ github.event.inputs.FIXED_IMAGE_SIZE }}
 
 jobs:
@@ -41,13 +46,6 @@ jobs:
       with:
         repository: armbian/build
         path: build
-
-    - name: SSH connection to Actions
-      uses: P3TERX/ssh2actions@main
-      if: ${{ github.event.inputs.DEBUG }} == 'yes'
-      env:
-        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
 
     - name: Cache rootfs
       id: cache-rootfs
@@ -62,11 +60,11 @@ jobs:
       if: ${{ github.event.inputs.DEBUG }} != 'yes'
       run: |
         cd build
-        ./compile.sh \
+        sudo ./compile.sh \
         BOARD=$BOARD \
         BRANCH=$BRANCH \
         RELEASE=$RELEASE \
-        BUILD_MINIMAL=yes \
+        BUILD_MINIMAL=$BUILD_MINIMAL \
         BUILD_DESKTOP=no \
         KERNEL_ONLY=no \
         KERNEL_CONFIGURE=no \
