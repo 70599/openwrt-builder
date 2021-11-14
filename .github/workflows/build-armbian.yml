@@ -60,10 +60,32 @@ jobs:
         path: build/cache/rootfs
         key: ${{ runner.os }}-${{ github.event.inputs.BOARD }}-${{ github.event.inputs.BRANCH }}-${{ github.event.inputs.RELEASE }}-${{ github.run_id }}
 
-    - name: Build Armbian
+    # - name: Build Armbian
+    #   id: build-armbian
+    #   run: |
+    #     cd build
+    #     sudo ./compile.sh \
+    #     BOARD=$BOARD \
+    #     BRANCH=$BRANCH \
+    #     RELEASE=$RELEASE \
+    #     BUILD_MINIMAL=$BUILD_MINIMAL \
+    #     BUILD_DESKTOP=no \
+    #     KERNEL_ONLY=no \
+    #     KERNEL_CONFIGURE=no \
+    #     ROOTFS_TYPE=f2fs \
+    #     FIXED_IMAGE_SIZE=$FIXED_IMAGE_SIZE \
+    #     WIREGUARD=no
+    #     echo "::set-output name=status::success"
+    #     df -hT
+
+    - name: Build Armbian in Docker
       id: build-armbian
+      uses: addnab/docker-run-action@v3
+      with:
+        image: debian:latest
+        options: -v build:/work
       run: |
-        cd build
+        cd /work
         sudo ./compile.sh \
         BOARD=$BOARD \
         BRANCH=$BRANCH \
@@ -89,7 +111,7 @@ jobs:
       uses: actions/upload-artifact@main
       if: steps.build-armbian.outputs.status == 'success'
       with:
-        name: Armbian_Output
+        name: Armbian_Images
         path: build/output/images
 
     - name: Send complete notification
