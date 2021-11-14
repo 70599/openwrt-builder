@@ -84,7 +84,7 @@ jobs:
         options: -v ${{ github.workspace }}:/work -e BOARD=${{ github.event.inputs.BOARD }} -e BRANCH=${{ github.event.inputs.BRANCH }} -e RELEASE=${{ github.event.inputs.RELEASE }} -e BUILD_MINIMAL=${{ github.event.inputs.BUILD_MINIMAL }} -e FIXED_IMAGE_SIZE=${{ github.event.inputs.FIXED_IMAGE_SIZE }}
         run: |
           cd /work/build
-          ./compile.sh \
+          ./compile.sh docker \
           BOARD=$BOARD \
           BRANCH=$BRANCH \
           RELEASE=$RELEASE \
