@@ -4,10 +4,6 @@ on:
   repository_dispatch:
   workflow_dispatch:
     inputs:
-      DEBUG:
-        description: 'Interactive debuging'
-        required: true
-        default: '[no],yes'
       BOARD:
         description: 'Board'
         required: true
@@ -41,6 +37,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Initialization environment
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
+        sudo -E apt-get -qq update
+        sudo -E apt-get -qq install tree
+        sudo -E apt-get -qq autoremove --purge
+        sudo -E apt-get -qq clean
+
     - name: Checkout Armbian build script
       uses: actions/checkout@v2
       with:
@@ -49,7 +55,6 @@ jobs:
 
     - name: Cache rootfs
       id: cache-rootfs
-      if: ${{ github.event.inputs.DEBUG }} != 'yes'
       uses: actions/cache@v2.1.6
       with:
         path: build/cache/rootfs
@@ -57,7 +62,6 @@ jobs:
 
     - name: Build Armbian
       id: build-armbian
-      if: ${{ github.event.inputs.DEBUG }} != 'yes'
       run: |
         cd build
         sudo ./compile.sh \
@@ -69,18 +73,27 @@ jobs:
         KERNEL_ONLY=no \
         KERNEL_CONFIGURE=no \
         ROOTFS_TYPE=f2fs \
-        FIXED_IMAGE_SIZE=$FIXED_IMAGE_SIZE
+        FIXED_IMAGE_SIZE=$FIXED_IMAGE_SIZE \
+        WIREGUARD=no
         echo "::set-output name=status::success"
+        df -hT
+
+    - name: SSH connection to Actions
+      uses: P3TERX/ssh2actions@main
+      if: steps.build-armbian.outputs.status != 'success'
+      env:
+        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
 
     - name: Upload output directory
       uses: actions/upload-artifact@main
-      if: steps.build-armbian.outputs.status == 'success' && ${{ github.event.inputs.DEBUG }} != 'yes'
+      if: steps.build-armbian.outputs.status == 'success'
       with:
         name: Armbian_Output
         path: build/output
 
     - name: Send complete notification
-      if: ${{ github.event.inputs.DEBUG }} != 'yes'
+      if: steps.build-armbian.outputs.status == 'success'
       run: |
         curl -X POST \
           -H 'Content-Type: application/json' \
