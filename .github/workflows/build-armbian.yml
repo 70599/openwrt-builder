@@ -81,8 +81,9 @@ jobs:
       uses: addnab/docker-run-action@v3
       with:
         image: debian:latest
+        options: -v ${{ github.workspace }}:/work
         run: |
-          cd /github/workspace/build
+          cd /work/build
           ./compile.sh \
           BOARD=$BOARD \
           BRANCH=$BRANCH \
