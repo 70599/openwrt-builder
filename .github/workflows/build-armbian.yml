@@ -84,21 +84,21 @@ jobs:
       with:
         image: debian:latest
         options: -v build:/work
-      run: |
-        cd /work
-        sudo ./compile.sh \
-        BOARD=$BOARD \
-        BRANCH=$BRANCH \
-        RELEASE=$RELEASE \
-        BUILD_MINIMAL=$BUILD_MINIMAL \
-        BUILD_DESKTOP=no \
-        KERNEL_ONLY=no \
-        KERNEL_CONFIGURE=no \
-        ROOTFS_TYPE=f2fs \
-        FIXED_IMAGE_SIZE=$FIXED_IMAGE_SIZE \
-        WIREGUARD=no
-        echo "::set-output name=status::success"
-        df -hT
+        run: |
+          cd /work
+          sudo ./compile.sh \
+          BOARD=$BOARD \
+          BRANCH=$BRANCH \
+          RELEASE=$RELEASE \
+          BUILD_MINIMAL=$BUILD_MINIMAL \
+          BUILD_DESKTOP=no \
+          KERNEL_ONLY=no \
+          KERNEL_CONFIGURE=no \
+          ROOTFS_TYPE=f2fs \
+          FIXED_IMAGE_SIZE=$FIXED_IMAGE_SIZE \
+          WIREGUARD=no
+          echo "::set-output name=status::success"
+          df -hT
 
     - name: SSH connection to Actions
       uses: P3TERX/ssh2actions@main
