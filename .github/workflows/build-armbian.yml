@@ -81,7 +81,7 @@ jobs:
       uses: addnab/docker-run-action@v3
       with:
         image: debian:latest
-        options: -v ${{ github.workspace }}:/work -e BOARD=$BOARD -e BRANCH=$BRANCH -e RELEASE=$RELEASE -e BUILD_MINIMAL=$BUILD_MINIMAL -e FIXED_IMAGE_SIZE=$FIXED_IMAGE_SIZE
+        options: -v ${{ github.workspace }}:/work -e BOARD=${{ github.event.inputs.BOARD }} -e BRANCH=${{ github.event.inputs.BRANCH }} -e RELEASE=${{ github.event.inputs.RELEASE }} -e BUILD_MINIMAL=${{ github.event.inputs.BUILD_MINIMAL }} -e FIXED_IMAGE_SIZE=${{ github.event.inputs.FIXED_IMAGE_SIZE }}
         run: |
           cd /work/build
           ./compile.sh \
