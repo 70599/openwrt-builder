@@ -90,7 +90,7 @@ jobs:
       if: steps.build-armbian.outputs.status == 'success'
       with:
         name: Armbian_Output
-        path: build/output
+        path: build/output/images
 
     - name: Send complete notification
       if: steps.build-armbian.outputs.status == 'success'
