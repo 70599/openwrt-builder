@@ -34,7 +34,7 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-21.04
 
     steps:
     - name: Initialization environment
@@ -62,7 +62,7 @@ jobs:
       id: build-armbian
       run: |
         cd build
-        sudo ./compile.sh docker \
+        sudo ./compile.sh \
         BOARD=$BOARD \
         BRANCH=$BRANCH \
         RELEASE=$RELEASE \
