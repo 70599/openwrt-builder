@@ -15,26 +15,26 @@ on:
       RELEASE:
         description: 'Release'
         required: true
-        default: '[bullseye],buster,hirsute,focal'
+        default: 'bullseye,buster,hirsute,[focal]'
       BUILD_MINIMAL:
         description: 'Build minimal'
         required: true
         default: '[no],yes'
-      FIXED_IMAGE_SIZE:
-        description: 'Fixed image size'
+      ROOTFS_TYPE:
+        description: 'Rootfs type'
         required: true
-        default: '1024,[2048],3072,4096'
+        default: '[ext4],f2fs,btrfs,xfs'
 
 env:
   BOARD: ${{ github.event.inputs.BOARD }}
   BRANCH: ${{ github.event.inputs.BRANCH }}
   RELEASE: ${{ github.event.inputs.RELEASE }}
   BUILD_MINIMAL: ${{ github.event.inputs.BUILD_MINIMAL }}
-  FIXED_IMAGE_SIZE: ${{ github.event.inputs.FIXED_IMAGE_SIZE }}
+  ROOTFS_TYPE: ${{ github.event.inputs.ROOTFS_TYPE }}
 
 jobs:
   build:
-    runs-on: ubuntu-21.04
+    runs-on: ubuntu-latest
 
     steps:
     - name: Initialization environment
@@ -70,31 +70,10 @@ jobs:
         BUILD_DESKTOP=no \
         KERNEL_ONLY=no \
         KERNEL_CONFIGURE=no \
-        ROOTFS_TYPE=f2fs \
-        FIXED_IMAGE_SIZE=$FIXED_IMAGE_SIZE \
+        ROOTFS_TYPE=$ROOTFS_TYPE \
         WIREGUARD=no
         echo "::set-output name=status::success"
         df -hT
-
-    # - name: Build Armbian in Docker
-    #   id: build-armbian
-    #   uses: addnab/docker-run-action@v3
-    #   with:
-    #     image: debian:latest
-    #     options: -v ${{ github.workspace }}:/work -e BOARD=${{ github.event.inputs.BOARD }} -e BRANCH=${{ github.event.inputs.BRANCH }} -e RELEASE=${{ github.event.inputs.RELEASE }} -e BUILD_MINIMAL=${{ github.event.inputs.BUILD_MINIMAL }} -e FIXED_IMAGE_SIZE=${{ github.event.inputs.FIXED_IMAGE_SIZE }}
-    #     run: |
-    #       cd /work/build
-    #       ./compile.sh docker \
-    #       BOARD=$BOARD \
-    #       BRANCH=$BRANCH \
-    #       RELEASE=$RELEASE \
-    #       BUILD_MINIMAL=$BUILD_MINIMAL \
-    #       BUILD_DESKTOP=no \
-    #       KERNEL_ONLY=no \
-    #       KERNEL_CONFIGURE=no \
-    #       ROOTFS_TYPE=f2fs \
-    #       FIXED_IMAGE_SIZE=$FIXED_IMAGE_SIZE \
-    #       WIREGUARD=no
 
     - name: SSH connection to Actions
       uses: P3TERX/ssh2actions@main
