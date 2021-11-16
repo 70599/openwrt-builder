@@ -56,7 +56,7 @@ jobs:
       uses: actions/cache@v2.1.6
       with:
         path: build/cache/rootfs
-        key: ${{ runner.os }}-${{ github.event.inputs.BOARD }}-${{ github.event.inputs.BRANCH }}-${{ github.event.inputs.RELEASE }}-${{ github.run_id }}
+        key: ${{ runner.os }}-${{ github.event.inputs.BOARD }}-${{ github.event.inputs.BRANCH }}-${{ github.event.inputs.RELEASE }}
 
     - name: Build Armbian
       id: build-armbian
