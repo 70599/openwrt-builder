@@ -71,7 +71,8 @@ jobs:
         KERNEL_ONLY=no \
         KERNEL_CONFIGURE=no \
         ROOTFS_TYPE=$ROOTFS_TYPE \
-        WIREGUARD=no
+        WIREGUARD=no \
+        COMPRESS_OUTPUTIMAGE=gz
         echo "::set-output name=status::success"
         df -hT
 
