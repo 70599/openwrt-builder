@@ -43,10 +43,5 @@ for pkg in containerd docker docker-compose dockerd runc; do
 done
 popd
 
-pushd feeds/packages/lang
-rm -rf python
-svn co https://github.com/openwrt/packages/trunk/lang/python
-popd
-
 ./scripts/feeds update packages
 ./scripts/feeds install -a -p packages
