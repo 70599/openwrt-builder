@@ -17,11 +17,27 @@ on:
       target:
         description: 'Target image'
         required: true
-        default: '[r4s],r4s_no-docker,x86,k3'
+        default: '[r4s],r4s_no-docker,r4s_rootfs,x86,k3'
       repo:
         description: 'Source code repo'
         required: true
         default: '[coolsnowwolf/lede],Lienol/openwrt,friendlyarm/friendlywrt'
+      upload_bin_dir:
+        description: 'Upload bin dir?'
+        required: true
+        default: '[yes],no'
+      upload_firmware:
+        description: 'Upload firmware?'
+        required: true
+        default: 'yes,[no]'
+      upload_cowtransfer:
+        description: 'Upload to Cowtransfer?'
+        required: true
+        default: '[yes],no'
+      upload_wetransfer:
+        description: 'Upload to Wetransfer?'
+        required: true
+        default: 'yes,[no]'
 
 env:
   REPO_URL: https://github.com/${{ github.event.inputs.repo }}
@@ -29,10 +45,8 @@ env:
   CONFIG_FILE: ${{ github.event.inputs.target }}.config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
-  UPLOAD_BIN_DIR: true
-  UPLOAD_FIRMWARE: true
-  UPLOAD_COWTRANSFER: true
-  UPLOAD_WETRANSFER: false
+  UPLOAD_COWTRANSFER: ${{ github.event.inputs.upload_cowtransfer }}
+  UPLOAD_WETRANSFER: ${{ github.event.inputs.upload_wetransfer }}
   UPLOAD_RELEASE: false
   TZ: Asia/Shanghai
 
@@ -148,14 +162,14 @@ jobs:
 
     - name: Upload bin directory
       uses: actions/upload-artifact@main
-      if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
+      if: steps.compile.outputs.status == 'success' && ${{ github.event.inputs.upload_bin_dir }} == 'yes'
       with:
         name: OpenWrt_bin${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: openwrt/bin
 
     - name: Organize files
       id: organize
-      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
+      if: ${{ github.event.inputs.upload_firmware }} == 'yes' && !cancelled()
       run: |
         cd openwrt/bin/targets/*/*
         rm -rf packages
@@ -171,7 +185,7 @@ jobs:
 
     - name: Upload firmware to cowtransfer
       id: cowtransfer
-      if: steps.organize.outputs.status == 'success' && env.UPLOAD_COWTRANSFER == 'true' && !cancelled()
+      if: steps.organize.outputs.status == 'success' && env.UPLOAD_COWTRANSFER == 'yes' && !cancelled()
       run: |
         curl -fsSL git.io/file-transfer | sh
         ./transfer cow --block 2621440 -s -p 64 --no-progress ${FIRMWARE} 2>&1 | tee cowtransfer.log
@@ -180,7 +194,7 @@ jobs:
 
     - name: Upload firmware to WeTransfer
       id: wetransfer
-      if: steps.organize.outputs.status == 'success' && env.UPLOAD_WETRANSFER == 'true' && !cancelled()
+      if: steps.organize.outputs.status == 'success' && env.UPLOAD_WETRANSFER == 'yes' && !cancelled()
       run: |
         curl -fsSL git.io/file-transfer | sh
         ./transfer wet -s -p 16 --no-progress ${FIRMWARE} 2>&1 | tee wetransfer.log
@@ -193,8 +207,8 @@ jobs:
       run: |
         echo "::set-output name=release_tag::$(date +"%Y.%m.%d-%H%M")"
         touch release.txt
-        [ $UPLOAD_COWTRANSFER = true ] && echo "🔗 [Cowtransfer](${{ steps.cowtransfer.outputs.url }})" >> release.txt
-        [ $UPLOAD_WETRANSFER = true ] && echo "🔗 [WeTransfer](${{ steps.wetransfer.outputs.url }})" >> release.txt
+        [ $UPLOAD_COWTRANSFER == 'yes' ] && echo "🔗 [Cowtransfer](${{ steps.cowtransfer.outputs.url }})" >> release.txt
+        [ $UPLOAD_WETRANSFER == 'yes' ] && echo "🔗 [WeTransfer](${{ steps.wetransfer.outputs.url }})" >> release.txt
         echo "::set-output name=status::success"
 
     - name: Upload firmware to release
