@@ -61,6 +61,10 @@ jobs:
     - name: Build Armbian
       id: build-armbian
       run: |
+        FIXED_IMAGE_SIZE=''
+        if [ $ROOTFS_TYPE -eq 'f2fs' ]; then
+          FIXED_IMAGE_SIZE='FIXED_IMAGE_SIZE=4096'
+        fi
         cd build
         sudo ./compile.sh \
         BOARD=$BOARD \
@@ -72,7 +76,8 @@ jobs:
         KERNEL_CONFIGURE=no \
         ROOTFS_TYPE=$ROOTFS_TYPE \
         WIREGUARD=no \
-        COMPRESS_OUTPUTIMAGE=gz
+        COMPRESS_OUTPUTIMAGE=gz \
+        $FIXED_IMAGE_SIZE
         echo "::set-output name=status::success"
         df -hT
 
