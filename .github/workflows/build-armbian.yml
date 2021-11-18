@@ -27,7 +27,7 @@ on:
       FIXED_IMAGE_SIZE:
         description: 'Fixed image size (in MB)'
         required: true
-        default: '2048,[4096]'
+        default: '2048,[4096],8192'
 
 env:
   BOARD: ${{ github.event.inputs.BOARD }}
