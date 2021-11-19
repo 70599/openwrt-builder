@@ -89,9 +89,3 @@ jobs:
         && git add . \
         && git commit -m "update config file(s)" \
         && git push
-
-    - name: Delete workflow runs
-      uses: GitRML/delete-workflow-runs@main
-      with:
-        retain_days: 1
-        keep_minimum_runs: 5
