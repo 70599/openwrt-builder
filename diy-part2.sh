@@ -46,3 +46,5 @@ popd
 
 ./scripts/feeds update packages
 ./scripts/feeds install -a -p packages
+
+ln -s `which upx` /workdir/openwrt/staging_dir/host/bin/upx
