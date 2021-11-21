@@ -224,16 +224,16 @@ jobs:
     - name: Send complete notification
       if: steps.organize.outputs.status == 'success'
       run: |
-        MESSAGE="<b>✅ [${{ github.event.inputs.target }}] 固件编译完成</b>"
+        TITLE="<b>✅ [${{ github.event.inputs.target }}] 固件编译完成</b>"
         if [ $UPLOAD_COWTRANSFER == 'yes' ]; then
-          MESSAGE="${MESSAGE}%0A🔗 [Cowtransfer](${{ steps.cowtransfer.outputs.url }})"
+          MESSAGE="${TITLE}%0A🔗 [Cowtransfer](${{ steps.cowtransfer.outputs.url }})"
         fi
         if [ $UPLOAD_WETRANSFER == 'yes' ]; then
-          MESSAGE="${MESSAGE}%0A🔗 [WeTransfer](${{ steps.wetransfer.outputs.url }})"
+          MESSAGE="${TITLE}%0A🔗 [WeTransfer](${{ steps.wetransfer.outputs.url }})"
         fi
         curl -X POST \
           -H 'Content-Type: application/json' \
-          -d '{"chat_id": "${{ secrets.TELEGRAM_CHAT_ID }}", "text": "${{ MESSAGE }}"}' \
+          -d '{"chat_id": "${{ secrets.TELEGRAM_CHAT_ID }}", "text": "'"$MESSAGE"'"}' \
           https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage
 
     - name: Remove old Releases
