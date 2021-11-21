@@ -21,7 +21,7 @@ on:
       repo:
         description: 'Source code repo'
         required: true
-        default: '[coolsnowwolf/lede],Lienol/openwrt,friendlyarm/friendlywrt'
+        default: 'DHDAXCW/openwrt-mix,[coolsnowwolf/lede],Lienol/openwrt,friendlyarm/friendlywrt'
       upload_bin_dir:
         description: 'Upload bin dir?'
         required: true
@@ -233,7 +233,7 @@ jobs:
         fi
         curl -X POST \
           -H 'Content-Type: application/json' \
-          -d '{"chat_id": "${{ secrets.TELEGRAM_CHAT_ID }}", "text": "$MESSAGE"}' \
+          -d '{"chat_id": "${{ secrets.TELEGRAM_CHAT_ID }}", "text": "${{ MESSAGE }}"}' \
           https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage
 
     - name: Remove old Releases
