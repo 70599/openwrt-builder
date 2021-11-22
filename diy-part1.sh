@@ -17,14 +17,18 @@
 # echo 'src-git lienol https://github.com/Lienol/openwrt-package.git;main' >> feeds.conf.default
 # echo 'src-git diy1 https://github.com/xiaorouji/openwrt-passwall.git;main' >> feeds.conf.default
 
-# remove doubled packages
-rm -rf package/lean/{luci-app-cpufreq,luci-app-verysync,verysync}
-
 [ -e package/additional ] || mkdir -p package/additional
 pushd package/additional
 
 # passwall
 git clone https://github.com/xiaorouji/openwrt-passwall.git
+
+# vlmcsd
+svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/vlmcsd
+svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-vlmcsd
+
+# zerotier
+svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-zerotier
 
 # udptools
 # svn co https://github.com/zcy85611/Openwrt-Package/trunk/luci-udptools
