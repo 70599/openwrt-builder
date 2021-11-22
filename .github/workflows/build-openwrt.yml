@@ -231,10 +231,11 @@ jobs:
         if [ $UPLOAD_WETRANSFER == 'yes' ]; then
           MESSAGE="🔗 [WeTransfer](${{ steps.wetransfer.outputs.url }})"
         fi
-        curl -X POST \
-          -H 'Content-Type: application/json' \
-          -d '{"chat_id": "${{ secrets.TELEGRAM_CHAT_ID }}", "text": "<b>'"$TITLE"'</b>%0A'"$MESSAGE"'"}' \
-          https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage
+        curl \
+          - data parse_mode=HTML \
+          - data chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+          - data text="<b>$TITLE</b>%0A$MESSAGE" \
+          - request POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage
 
     - name: Remove old Releases
       uses: dev-drprasad/delete-older-releases@v0.1.0
