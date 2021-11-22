@@ -21,7 +21,7 @@ on:
       repo:
         description: 'Source code repo'
         required: true
-        default: 'DHDAXCW/openwrt-mix,[coolsnowwolf/lede],Lienol/openwrt,friendlyarm/friendlywrt'
+        default: '[DHDAXCW/openwrt-mix],coolsnowwolf/lede,Lienol/openwrt,friendlyarm/friendlywrt'
       upload_bin_dir:
         description: 'Upload bin dir?'
         required: true
@@ -224,16 +224,16 @@ jobs:
     - name: Send complete notification
       if: steps.organize.outputs.status == 'success'
       run: |
-        TITLE="<b>✅ [${{ github.event.inputs.target }}] 固件编译完成</b>"
+        TITLE="✅ [${{ github.event.inputs.target }}] 固件编译完成"
         if [ $UPLOAD_COWTRANSFER == 'yes' ]; then
-          MESSAGE="${TITLE}%0A🔗 [Cowtransfer](${{ steps.cowtransfer.outputs.url }})"
+          MESSAGE="🔗 [Cowtransfer](${{ steps.cowtransfer.outputs.url }})"
         fi
         if [ $UPLOAD_WETRANSFER == 'yes' ]; then
-          MESSAGE="${TITLE}%0A🔗 [WeTransfer](${{ steps.wetransfer.outputs.url }})"
+          MESSAGE="🔗 [WeTransfer](${{ steps.wetransfer.outputs.url }})"
         fi
         curl -X POST \
           -H 'Content-Type: application/json' \
-          -d '{"chat_id": "${{ secrets.TELEGRAM_CHAT_ID }}", "text": "'"$MESSAGE"'"}' \
+          -d '{"chat_id": "${{ secrets.TELEGRAM_CHAT_ID }}", "text": "<b>'"$TITLE"'</b>%0A'"$MESSAGE"'"}' \
           https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage
 
     - name: Remove old Releases
