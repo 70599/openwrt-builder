@@ -31,10 +31,10 @@ function fish_prompt
 end
 
 
-function fish_right_prompt
-	set -l duration (echo "$CMD_DURATION 1000" | awk '{printf "%.3fs", $1 / $2}')
-	echo -n -s (set_color 888888) $duration (set_color normal)
-end
+# function fish_right_prompt
+#	set -l duration (echo "$CMD_DURATION 1000" | awk '{printf "%.3fs", $1 / $2}')
+#	echo -n -s (set_color 888888) $duration (set_color normal)
+# end
 
 function 'apk add'
 	apk add --no-cache $argv

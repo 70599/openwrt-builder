@@ -47,4 +47,8 @@ popd
 ./scripts/feeds update packages
 ./scripts/feeds install -a -p packages
 
-ln -s `which upx` /workdir/openwrt/staging_dir/host/bin/upx
+# fix UPX
+# https://github.com/DHDAXCW/openwrt-mix/issues/1
+pushd /workdir/openwrt/staging_dir/host/bin/
+[ -x ./upx ] || ln -sf `which upx` ./upx
+popd

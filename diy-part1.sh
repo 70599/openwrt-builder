@@ -23,6 +23,13 @@ pushd package/additional
 # passwall
 git clone https://github.com/xiaorouji/openwrt-passwall.git
 
+# shortcut-fe
+svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-turboacc
+svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/dnsforwarder
+svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/dnsproxy
+svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/shortcut-fe
+
+
 # vlmcsd
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/vlmcsd
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-vlmcsd

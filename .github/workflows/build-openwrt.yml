@@ -150,7 +150,12 @@ jobs:
       run: |
         cd openwrt
         echo -e "$(nproc) thread compile"
-        make -j$(nproc) || make -j1 || make -j1 V=s
+        make -j$(nproc) || make -j1 || make -j1 V=s || \
+        curl \
+          -- data parse_mode=HTML \
+          -- data chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+          -- data text="<b>❌ [${{ github.event.inputs.target }}] 固件编译失败</b>" \
+          -- request POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage
         echo "::set-output name=status::success"
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
@@ -232,10 +237,10 @@ jobs:
           MESSAGE="🔗 [WeTransfer](${{ steps.wetransfer.outputs.url }})"
         fi
         curl \
-          -- data parse_mode=HTML \
-          -- data chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-          -- data text="<b>$TITLE</b>%0A$MESSAGE" \
-          -- request POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage
+          --data parse_mode=HTML \
+          --data chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+          --data text="<b>$TITLE</b>%0A$MESSAGE" \
+          --request POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage
 
     - name: Remove old Releases
       uses: dev-drprasad/delete-older-releases@v0.1.0
