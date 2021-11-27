@@ -21,7 +21,7 @@ on:
       repo:
         description: 'Source code repo'
         required: true
-        default: '[DHDAXCW/openwrt-mix],coolsnowwolf/lede,Lienol/openwrt,friendlyarm/friendlywrt'
+        default: '[Lienol/openwrt],DHDAXCW/openwrt-mix,coolsnowwolf/lede,friendlyarm/friendlywrt'
       upload_bin_dir:
         description: 'Upload bin dir?'
         required: true
@@ -152,10 +152,10 @@ jobs:
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 || make -j1 V=s || \
         curl \
-          -- data parse_mode=HTML \
-          -- data chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-          -- data text="<b>❌ [${{ github.event.inputs.target }}] 固件编译失败</b>" \
-          -- request POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage
+          --data parse_mode=HTML \
+          --data chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+          --data text="<b>❌ [${{ github.event.inputs.target }}] 固件编译失败</b>" \
+          --request POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage
         echo "::set-output name=status::success"
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
@@ -229,17 +229,17 @@ jobs:
     - name: Send complete notification
       if: steps.organize.outputs.status == 'success'
       run: |
-        TITLE="✅ [${{ github.event.inputs.target }}] 固件编译完成"
+        TITLE="<b>✅ [${{ github.event.inputs.target }}] 固件编译完成</b>"
         if [ $UPLOAD_COWTRANSFER == 'yes' ]; then
-          MESSAGE="🔗 [Cowtransfer](${{ steps.cowtransfer.outputs.url }})"
+          MESSAGE="🔗 <a href='${{ steps.cowtransfer.outputs.url }}'>Cowtransfer</a>"
         fi
         if [ $UPLOAD_WETRANSFER == 'yes' ]; then
-          MESSAGE="🔗 [WeTransfer](${{ steps.wetransfer.outputs.url }})"
+          MESSAGE="🔗 <a href='${{ steps.wetransfer.outputs.url }}'>WeTransfer</a>"
         fi
         curl \
           --data parse_mode=HTML \
           --data chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-          --data text="<b>$TITLE</b>%0A$MESSAGE" \
+          --data text="$TITLE%0A$MESSAGE" \
           --request POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage
 
     - name: Remove old Releases
@@ -250,4 +250,3 @@ jobs:
         delete_tags: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
