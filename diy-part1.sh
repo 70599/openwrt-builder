@@ -12,6 +12,7 @@
 
 # Uncomment a feed source
 #sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
+sed -i 's|Lienol/openwrt-luci.git;main|Lienol/openwrt-luci.git;21.02|g' feeds.conf.default
 
 # Add a feed source
 # echo 'src-git lienol https://github.com/Lienol/openwrt-package.git;main' >> feeds.conf.default
