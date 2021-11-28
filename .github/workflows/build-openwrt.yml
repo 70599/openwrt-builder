@@ -238,6 +238,7 @@ jobs:
         fi
         curl \
           --data parse_mode=HTML \
+          --data disable_web_page_preview=true \
           --data chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
           --data text="$TITLE%0A$MESSAGE" \
           --request POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage
