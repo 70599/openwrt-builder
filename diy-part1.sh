@@ -22,7 +22,7 @@
 pushd package/additional
 
 # passwall
-# git clone https://github.com/xiaorouji/openwrt-passwall.git
+git clone https://github.com/xiaorouji/openwrt-passwall.git
 
 # shortcut-fe
 # svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-turboacc
