@@ -12,7 +12,7 @@
 
 # Uncomment a feed source
 #sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
-sed -i 's|Lienol/openwrt-luci.git;main|Lienol/openwrt-luci.git;21.02|g' feeds.conf.default
+# sed -i 's|Lienol/openwrt-luci.git;main|Lienol/openwrt-luci.git;21.02|g' feeds.conf.default
 
 # Add a feed source
 # echo 'src-git lienol https://github.com/Lienol/openwrt-package.git;main' >> feeds.conf.default
@@ -22,21 +22,21 @@ sed -i 's|Lienol/openwrt-luci.git;main|Lienol/openwrt-luci.git;21.02|g' feeds.co
 pushd package/additional
 
 # passwall
-git clone https://github.com/xiaorouji/openwrt-passwall.git
+# git clone https://github.com/xiaorouji/openwrt-passwall.git
 
 # shortcut-fe
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-turboacc
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/dnsforwarder
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/dnsproxy
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/shortcut-fe
+# svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-turboacc
+# svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/dnsforwarder
+# svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/dnsproxy
+# svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/shortcut-fe
 
 
 # vlmcsd
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/vlmcsd
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-vlmcsd
+# svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/vlmcsd
+# svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-vlmcsd
 
 # zerotier
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-zerotier
+# svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-zerotier
 
 # udptools
 # svn co https://github.com/zcy85611/Openwrt-Package/trunk/luci-udptools
