@@ -17,7 +17,7 @@ on:
       repo:
         description: 'Source code repo'
         required: true
-        default: '[Lienol/openwrt],DHDAXCW/openwrt-mix,coolsnowwolf/lede,friendlyarm/friendlywrt'
+        default: '[coolsnowwolf/lede],Lienol/openwrt,DHDAXCW/openwrt-mix,friendlyarm/friendlywrt'
 
 env:
   REPO_URL: https://github.com/${{ github.event.inputs.repo }}
