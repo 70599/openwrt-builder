@@ -33,11 +33,11 @@ on:
       upload_cowtransfer:
         description: 'Upload to Cowtransfer?'
         required: true
-        default: '[yes],no'
+        default: 'yes,[no]'
       upload_wetransfer:
         description: 'Upload to Wetransfer?'
         required: true
-        default: 'yes,[no]'
+        default: '[yes],no'
 
 env:
   REPO_URL: https://github.com/${{ github.event.inputs.repo }}
