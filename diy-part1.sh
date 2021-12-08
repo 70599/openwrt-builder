@@ -27,6 +27,9 @@ git clone https://github.com/xiaorouji/openwrt-passwall.git
 # mosdns
 git clone https://github.com/QiuSimons/openwrt-mos.git
 
+# upx
+git clone https://github.com/kuoruan/openwrt-upx.git
+
 # shortcut-fe
 # svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-turboacc
 # svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/dnsforwarder
