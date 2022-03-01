@@ -22,6 +22,10 @@ on:
         description: 'Source code repo'
         required: true
         default: '[coolsnowwolf/lede],Lienol/openwrt,DHDAXCW/openwrt-mix,friendlyarm/friendlywrt'
+      kernel_version:
+        description: 'Kernel version'
+        required: true
+        default: '[5.4],5.10,5.15'
       upload_bin_dir:
         description: 'Upload bin dir?'
         required: true
@@ -144,6 +148,17 @@ jobs:
       with:
         path: openwrt/tmp
         key: ${{ runner.os }}-${{ github.event.inputs.target }}-${{ github.event.inputs.repo }}-tmp-${{ hashFiles('cache_ver') }}
+
+    - name: Set Kernel version
+      id: set-kernel-version
+      run: |
+        if [ ${{ github.event.inputs.target }} == 'r4s' ]; then
+          linux_target='rockchip'
+        fi
+        if [ ${{ github.event.inputs.target }} == 'x86' ]; then
+          linux_target=${{ github.event.inputs.target }}
+        fi
+        sed -i "s|5.4|${{ github.event.inputs.kernel_version }}|g" target/linux/$linux_target/Makefile
 
     - name: Compile the firmware
       id: compile
