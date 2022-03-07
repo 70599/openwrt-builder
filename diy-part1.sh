@@ -22,10 +22,14 @@
 pushd package/additional
 
 # passwall
-git clone https://github.com/xiaorouji/openwrt-passwall.git
+# git clone https://github.com/xiaorouji/openwrt-passwall.git
 
 # mosdns
-git clone https://github.com/QiuSimons/openwrt-mos.git
+# git clone https://github.com/QiuSimons/openwrt-mos.git
+
+# kenzok8
+git clone https://github.com/kenzok8/openwrt-packages.git
+git clone https://github.com/kenzok8/small.git
 
 # upx
 git clone https://github.com/kuoruan/openwrt-upx.git
