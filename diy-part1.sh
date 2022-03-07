@@ -28,8 +28,7 @@ pushd package/additional
 # git clone https://github.com/QiuSimons/openwrt-mos.git
 
 # kenzok8
-git clone https://github.com/kenzok8/openwrt-packages.git
-git clone https://github.com/kenzok8/small.git
+git clone https://github.com/kenzok8/small-package.git
 
 # upx
 git clone https://github.com/kuoruan/openwrt-upx.git
