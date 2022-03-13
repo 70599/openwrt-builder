@@ -55,7 +55,7 @@ git clone https://github.com/sensec/luci-app-udp2raw.git
 # git clone https://github.com/sensec/openwrt-udp2raw.git
 
 # OpenClash
-svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash
+# svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash
 
 # Pandownload
 svn co https://github.com/immortalwrt/packages/trunk/net/pandownload-fake-server
