@@ -49,9 +49,9 @@ git clone https://github.com/kuoruan/openwrt-upx.git
 
 # udptools
 # svn co https://github.com/zcy85611/Openwrt-Package/trunk/luci-udptools
-svn co https://github.com/zcy85611/Openwrt-Package/trunk/udp2raw
+# svn co https://github.com/zcy85611/Openwrt-Package/trunk/udp2raw
 # svn co https://github.com/zcy85611/Openwrt-Package/trunk/udpspeeder-tunnel
-git clone https://github.com/sensec/luci-app-udp2raw.git
+# git clone https://github.com/sensec/luci-app-udp2raw.git
 # git clone https://github.com/sensec/openwrt-udp2raw.git
 
 # OpenClash
