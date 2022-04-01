@@ -55,7 +55,8 @@ git clone https://github.com/kuoruan/openwrt-upx.git
 # git clone https://github.com/sensec/openwrt-udp2raw.git
 
 # OpenClash
-# svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash
+[ -e "small-package/luci-app-openclash" ] && rm -rf small-package/luci-app-openclash
+svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash
 
 # Pandownload
 svn co https://github.com/immortalwrt/packages/trunk/net/pandownload-fake-server
