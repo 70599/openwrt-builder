@@ -21,15 +21,6 @@ sed -i 's|/bin/ash|/usr/bin/fish|g' package/base-files/files/etc/passwd
 # sed -i 's|5.10|5.15|g' target/linux/x86/Makefile
 # sed -i 's|5.4|5.10|g' target/linux/rockchip/Makefile
 
-# Add cpufreq
-svn co https://github.com/immortalwrt/luci/trunk/applications/luci-app-cpufreq feeds/luci/applications/luci-app-cpufreq
-pushd package/feeds/luci
-ln -sf ../../../feeds/luci/applications/luci-app-cpufreq ./
-sed -i 's,1608,1800,g' luci-app-cpufreq/root/etc/uci-defaults/cpufreq
-sed -i 's,2016,2208,g' luci-app-cpufreq/root/etc/uci-defaults/cpufreq
-sed -i 's,1512,1608,g' luci-app-cpufreq/root/etc/uci-defaults/cpufreq
-popd
-
 # Fix libssh
 pushd feeds/packages/libs
 rm -rf libssh

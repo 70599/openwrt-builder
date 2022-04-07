@@ -29,6 +29,9 @@ pushd package/additional
 
 # kenzok8
 git clone https://github.com/kenzok8/small-package.git
+rm -rf small-package/v2ray-{core,plugin}
+svn co https://github.com/xiaorouji/openwrt-passwall/trunk/v2ray-core small-package/v2ray-core
+svn co https://github.com/xiaorouji/openwrt-passwall/trunk/v2ray-plugin small-package/v2ray-plugin
 
 # upx
 git clone https://github.com/kuoruan/openwrt-upx.git
