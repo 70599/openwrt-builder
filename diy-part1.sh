@@ -37,15 +37,15 @@ git clone https://github.com/kenzok8/small-package.git
 git clone https://github.com/kuoruan/openwrt-upx.git
 
 # shortcut-fe
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-turboacc
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/dnsforwarder
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/dnsproxy
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/shortcut-fe
+# svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-turboacc
+# svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/dnsforwarder
+# svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/dnsproxy
+# svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/shortcut-fe
 
 
 # vlmcsd
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/vlmcsd
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-vlmcsd
+# svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/vlmcsd
+# svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-vlmcsd
 
 # zerotier
 # svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-zerotier
