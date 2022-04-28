@@ -28,12 +28,12 @@ svn co https://github.com/openwrt/packages/trunk/libs/libssh
 popd
 
 # Replace docker packages
-pushd feeds/packages/utils
-for pkg in containerd docker docker-compose dockerd runc; do
-  rm -rf $pkg
-  svn co https://github.com/openwrt/packages/trunk/utils/$pkg
-done
-popd
+# pushd feeds/packages/utils
+# for pkg in containerd docker docker-compose dockerd runc; do
+#   rm -rf $pkg
+#   svn co https://github.com/openwrt/packages/trunk/utils/$pkg
+# done
+# popd
 
 ./scripts/feeds update packages
 ./scripts/feeds install -a -p packages
