@@ -43,3 +43,6 @@ popd
 pushd /workdir/openwrt/staging_dir/host/bin/
 [ -x ./upx ] || ln -sf `which upx` ./upx
 popd
+
+# fix NaiveProxy
+sed -i '154,156d' /workdir/openwrt/package/additional/small-package/naiveproxy/Makefile
