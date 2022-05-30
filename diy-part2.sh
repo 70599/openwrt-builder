@@ -45,4 +45,7 @@ pushd /workdir/openwrt/staging_dir/host/bin/
 popd
 
 # fix NaiveProxy
-sed -i '154,156d' /workdir/openwrt/package/additional/small-package/naiveproxy/Makefile
+pushd package/additional/small-package/
+rm -rf naiveproxy
+svn co https://github.com/xiaorouji/openwrt-passwall/trunk/naiveproxy
+popd
