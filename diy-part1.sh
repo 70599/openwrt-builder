@@ -28,7 +28,7 @@ pushd package/additional
 # git clone https://github.com/QiuSimons/openwrt-mos.git
 
 # homeproxy
-svn co https://github.com/immortalwrt/luci/trunk/libs/luci-lib-base luci-lib-base
+# svn co https://github.com/immortalwrt/luci/trunk/libs/luci-lib-base luci-lib-base
 git clone https://github.com/immortalwrt/homeproxy.git luci-app-homeproxy
 
 # kenzok8
