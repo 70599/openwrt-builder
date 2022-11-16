@@ -11,7 +11,7 @@
 #
 
 # Uncomment a feed source
-#sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
+# sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
 # sed -i 's|Lienol/openwrt-luci.git;main|Lienol/openwrt-luci.git;21.02|g' feeds.conf.default
 
 # Add a feed source
@@ -30,6 +30,7 @@ pushd package/additional
 # homeproxy
 # svn co https://github.com/immortalwrt/luci/trunk/libs/luci-lib-base luci-lib-base
 git clone https://github.com/immortalwrt/homeproxy.git luci-app-homeproxy
+sed -i 's|luci-lib-base|luci-base|g' luci-app-homeproxy/Makefile
 
 # kenzok8
 git clone https://github.com/kenzok8/small-package.git
