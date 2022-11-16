@@ -27,6 +27,9 @@ pushd package/additional
 # mosdns
 # git clone https://github.com/QiuSimons/openwrt-mos.git
 
+# homeproxy
+git clone https://github.com/immortalwrt/homeproxy.git luci-app-homeproxy
+
 # kenzok8
 git clone https://github.com/kenzok8/small-package.git
 # rm -rf small-package/v2ray-{core,plugin}
