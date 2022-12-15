@@ -19,7 +19,7 @@ sed -i 's|/bin/ash|/usr/bin/fish|g' package/base-files/files/etc/passwd
 
 # switch kernel version
 # sed -i 's|5.10|5.15|g' target/linux/x86/Makefile
-sed -i 's|5.15|6.0|g' target/linux/rockchip/Makefile
+sed -i 's|5.15|6.1|g' target/linux/rockchip/Makefile
 
 # Fix libssh
 pushd feeds/packages/libs
