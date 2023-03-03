@@ -45,7 +45,7 @@ pushd /workdir/openwrt/staging_dir/host/bin/
 popd
 
 # fix NaiveProxy
-pushd package/additional/small-package/
-rm -rf naiveproxy
-svn co https://github.com/xiaorouji/openwrt-passwall/trunk/naiveproxy
-popd
+# pushd package/additional/small-package/
+# rm -rf naiveproxy
+# svn co https://github.com/xiaorouji/openwrt-passwall/trunk/naiveproxy
+# popd
