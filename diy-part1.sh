@@ -16,7 +16,7 @@
 
 # Add a feed source
 # echo 'src-git lienol https://github.com/Lienol/openwrt-package.git;main' >> feeds.conf.default
-echo 'src-git xiaorouji https://github.com/xiaorouji/openwrt-passwall.git;packages' >> feeds.conf.default
+# echo 'src-git xiaorouji https://github.com/xiaorouji/openwrt-passwall.git;packages' >> feeds.conf.default
 echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall.git;luci-reality' >> feeds.conf.default
 
 [ -e package/additional ] || mkdir -p package/additional
@@ -30,8 +30,8 @@ pushd package/additional
 
 # homeproxy
 # svn co https://github.com/immortalwrt/luci/trunk/libs/luci-lib-base luci-lib-base
-git clone https://github.com/immortalwrt/homeproxy.git luci-app-homeproxy
-sed -i 's|luci-lib-base|luci-base|g' luci-app-homeproxy/Makefile
+# git clone https://github.com/immortalwrt/homeproxy.git luci-app-homeproxy
+# sed -i 's|luci-lib-base|luci-base|g' luci-app-homeproxy/Makefile
 
 # kenzok8
 # git clone https://github.com/kenzok8/small-package.git
@@ -64,8 +64,8 @@ git clone https://github.com/kuoruan/openwrt-upx.git
 # git clone https://github.com/sensec/openwrt-udp2raw.git
 
 # OpenClash
-[ -e "small-package/luci-app-openclash" ] && rm -rf small-package/luci-app-openclash
-svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash
+# [ -e "small-package/luci-app-openclash" ] && rm -rf small-package/luci-app-openclash
+# svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash
 
 # Pandownload
 svn co https://github.com/immortalwrt/packages/trunk/net/pandownload-fake-server
