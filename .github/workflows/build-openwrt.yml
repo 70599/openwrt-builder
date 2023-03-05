@@ -21,7 +21,7 @@ on:
       repo:
         description: 'Source code repo'
         required: true
-        default: '[coolsnowwolf/lede],Lienol/openwrt,friendlyarm/friendlywrt'
+        default: 'coolsnowwolf/lede immortalwrt/immortalwrt friendlyarm/friendlywrt'
       upload_bin_dir:
         description: 'Upload bin dir?'
         required: true
