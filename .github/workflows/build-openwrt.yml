@@ -15,29 +15,31 @@ on:
   workflow_dispatch:
     inputs:
       target:
+        type: choice
         description: 'Target image'
-        required: true
-        default: '[r4s],r4s_no-docker,r4s_rootfs,x86,k3'
+        options:
+        - r4s
+        - x86
+        - k3
       repo:
+        type: choice
         description: 'Source code repo'
-        required: true
-        default: 'coolsnowwolf/lede immortalwrt/immortalwrt friendlyarm/friendlywrt'
+        options:
+        - immortalwrt/immortalwrt
+        - coolsnowwolf/lede
+        - friendlyarm/friendlywrt
       upload_bin_dir:
-        description: 'Upload bin dir?'
-        required: true
-        default: '[yes],no'
+        type: boolean
+        description: 'Upload bin dir'
       upload_firmware:
-        description: 'Upload firmware?'
-        required: true
-        default: 'yes,[no]'
+        type: boolean
+        description: 'Upload firmware'
       upload_cowtransfer:
-        description: 'Upload to Cowtransfer?'
-        required: true
-        default: 'yes,[no]'
+        type: boolean
+        description: 'Upload to Cowtransfer'
       upload_wetransfer:
-        description: 'Upload to Wetransfer?'
-        required: true
-        default: '[yes],no'
+        type: boolean
+        description: 'Upload to Wetransfer'
 
 env:
   REPO_URL: https://github.com/${{ github.event.inputs.repo }}
@@ -136,14 +138,14 @@ jobs:
 
     - name: Upload bin directory
       uses: actions/upload-artifact@main
-      if: steps.compile.outputs.status == 'success' && ${{ github.event.inputs.upload_bin_dir }} == 'yes'
+      if: steps.compile.outputs.status == 'success' && ${{ github.event.inputs.upload_bin_dir }}
       with:
         name: OpenWrt_bin_${{ github.event.inputs.target }}${{ env.FILE_DATE }}
         path: openwrt/bin
 
     - name: Organize files
       id: organize
-      if: ${{ github.event.inputs.upload_firmware }} == 'yes' && !cancelled()
+      if: ${{ github.event.inputs.upload_firmware }} && !cancelled()
       run: |
         cd openwrt/bin/targets/*/*
         rm -rf packages
@@ -159,7 +161,7 @@ jobs:
 
     - name: Upload firmware to cowtransfer
       id: cowtransfer
-      if: steps.organize.outputs.status == 'success' && env.UPLOAD_COWTRANSFER == 'yes' && !cancelled()
+      if: steps.organize.outputs.status == 'success' && env.UPLOAD_COWTRANSFER && !cancelled()
       run: |
         curl -fsSL git.io/file-transfer | sh
         ./transfer cow --block 2621440 -s -p 64 --no-progress ${FIRMWARE} 2>&1 | tee cowtransfer.log
@@ -168,7 +170,7 @@ jobs:
 
     - name: Upload firmware to WeTransfer
       id: wetransfer
-      if: steps.organize.outputs.status == 'success' && env.UPLOAD_WETRANSFER == 'yes' && !cancelled()
+      if: steps.organize.outputs.status == 'success' && env.UPLOAD_WETRANSFER && !cancelled()
       run: |
         curl -fsSL git.io/file-transfer | sh
         ./transfer wet -s -p 16 --no-progress ${FIRMWARE} 2>&1 | tee wetransfer.log
@@ -181,8 +183,8 @@ jobs:
       run: |
         echo "::set-output name=release_tag::$(date +"%Y.%m.%d-%H%M")"
         touch release.txt
-        [ $UPLOAD_COWTRANSFER == 'yes' ] && echo "🔗 [Cowtransfer](${{ steps.cowtransfer.outputs.url }})" >> release.txt
-        [ $UPLOAD_WETRANSFER == 'yes' ] && echo "🔗 [WeTransfer](${{ steps.wetransfer.outputs.url }})" >> release.txt
+        [ $UPLOAD_COWTRANSFER ] && echo "🔗 [Cowtransfer](${{ steps.cowtransfer.outputs.url }})" >> release.txt
+        [ $UPLOAD_WETRANSFER ] && echo "🔗 [WeTransfer](${{ steps.wetransfer.outputs.url }})" >> release.txt
         echo "::set-output name=status::success"
 
     - name: Upload firmware to release
@@ -199,10 +201,10 @@ jobs:
       if: steps.organize.outputs.status == 'success'
       run: |
         TITLE="<b>✅ [${{ github.event.inputs.target }}] 固件编译完成</b>"
-        if [ $UPLOAD_COWTRANSFER == 'yes' ]; then
+        if [ $UPLOAD_COWTRANSFER ]; then
           MESSAGE="🔗 <a href='${{ steps.cowtransfer.outputs.url }}'>Cowtransfer</a>"
         fi
-        if [ $UPLOAD_WETRANSFER == 'yes' ]; then
+        if [ $UPLOAD_WETRANSFER ]; then
           MESSAGE="🔗 <a href='${{ steps.wetransfer.outputs.url }}'>WeTransfer</a>"
         fi
         curl \
