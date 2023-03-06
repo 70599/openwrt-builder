@@ -15,9 +15,12 @@ on:
   workflow_dispatch:
     inputs:
       repo:
+        type: choice
         description: 'Source code repo'
-        required: true
-        default: '[coolsnowwolf/lede],immortalwrt/immortalwrt,Lienol/openwrt,DHDAXCW/openwrt-mix,friendlyarm/friendlywrt'
+        options:
+        - immortalwrt/immortalwrt
+        - coolsnowwolf/lede
+        - friendlyarm/friendlywrt
 
 env:
   REPO_URL: https://github.com/${{ github.event.inputs.repo }}
