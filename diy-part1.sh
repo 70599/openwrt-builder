@@ -17,7 +17,7 @@
 # Add a feed source
 # echo 'src-git lienol https://github.com/Lienol/openwrt-package.git;main' >> feeds.conf.default
 # echo 'src-git xiaorouji https://github.com/xiaorouji/openwrt-passwall.git;packages' >> feeds.conf.default
-echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall.git;luci-reality' >> feeds.conf.default
+echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall.git;luci' >> feeds.conf.default
 
 [ -e package/additional ] || mkdir -p package/additional
 pushd package/additional
