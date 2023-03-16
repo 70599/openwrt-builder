@@ -40,7 +40,7 @@ pushd package/additional
 # svn co https://github.com/xiaorouji/openwrt-passwall/trunk/v2ray-plugin small-package/v2ray-plugin
 
 # upx
-git clone https://github.com/kuoruan/openwrt-upx.git
+# git clone https://github.com/kuoruan/openwrt-upx.git
 
 # shortcut-fe
 # svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-turboacc
