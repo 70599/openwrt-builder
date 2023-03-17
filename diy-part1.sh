@@ -68,12 +68,12 @@ pushd package/additional
 # svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash
 
 # Pandownload
-svn co https://github.com/immortalwrt/packages/trunk/net/pandownload-fake-server
+# svn co https://github.com/immortalwrt/packages/trunk/net/pandownload-fake-server
 
 popd
 
 # po2lmo
-git clone https://github.com/openwrt-dev/po2lmo.git
-pushd po2lmo
-make && sudo make install
-popd
+# git clone https://github.com/openwrt-dev/po2lmo.git
+# pushd po2lmo
+# make && sudo make install
+# popd
