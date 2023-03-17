@@ -34,9 +34,6 @@ on:
       upload_firmware:
         type: boolean
         description: 'Upload firmware'
-      upload_cowtransfer:
-        type: boolean
-        description: 'Upload to Cowtransfer'
       upload_wetransfer:
         type: boolean
         description: 'Upload to Wetransfer'
@@ -47,7 +44,6 @@ env:
   CONFIG_FILE: ${{ github.event.inputs.target }}.config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
-  UPLOAD_COWTRANSFER: ${{ github.event.inputs.upload_cowtransfer }}
   UPLOAD_WETRANSFER: ${{ github.event.inputs.upload_wetransfer }}
   UPLOAD_RELEASE: false
   TZ: Asia/Shanghai
@@ -159,15 +155,6 @@ jobs:
         name: OpenWrt_firmware_${{ github.event.inputs.target }}${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
 
-    - name: Upload firmware to cowtransfer
-      id: cowtransfer
-      if: steps.organize.outputs.status == 'success' && env.UPLOAD_COWTRANSFER && !cancelled()
-      run: |
-        curl -fsSL git.io/file-transfer | sh
-        ./transfer cow --block 2621440 -s -p 64 --no-progress ${FIRMWARE} 2>&1 | tee cowtransfer.log
-        echo "::warning file=cowtransfer.com::$(cat cowtransfer.log | grep https)"
-        echo "::set-output name=url::$(cat cowtransfer.log | grep https | cut -f3 -d" ")"
-
     - name: Upload firmware to WeTransfer
       id: wetransfer
       if: steps.organize.outputs.status == 'success' && env.UPLOAD_WETRANSFER && !cancelled()
@@ -183,7 +170,6 @@ jobs:
       run: |
         echo "::set-output name=release_tag::$(date +"%Y.%m.%d-%H%M")"
         touch release.txt
-        [ $UPLOAD_COWTRANSFER ] && echo "🔗 [Cowtransfer](${{ steps.cowtransfer.outputs.url }})" >> release.txt
         [ $UPLOAD_WETRANSFER ] && echo "🔗 [WeTransfer](${{ steps.wetransfer.outputs.url }})" >> release.txt
         echo "::set-output name=status::success"
 
@@ -201,9 +187,6 @@ jobs:
       if: steps.organize.outputs.status == 'success'
       run: |
         TITLE="<b>✅ [${{ github.event.inputs.target }}] 固件编译完成</b>"
-        if [ $UPLOAD_COWTRANSFER ]; then
-          MESSAGE="🔗 <a href='${{ steps.cowtransfer.outputs.url }}'>Cowtransfer</a>"
-        fi
         if [ $UPLOAD_WETRANSFER ]; then
           MESSAGE="🔗 <a href='${{ steps.wetransfer.outputs.url }}'>WeTransfer</a>"
         fi
