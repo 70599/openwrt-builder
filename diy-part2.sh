@@ -22,10 +22,10 @@ sed -i 's|/bin/ash|/usr/bin/fish|g' package/base-files/files/etc/passwd
 # sed -i 's|5.15|6.1|g' target/linux/rockchip/Makefile
 
 # Fix libssh
-pushd feeds/packages/libs
-rm -rf libssh
-svn co https://github.com/openwrt/packages/trunk/libs/libssh
-popd
+# pushd feeds/packages/libs
+# rm -rf libssh
+# svn co https://github.com/openwrt/packages/trunk/libs/libssh
+# popd
 
 # Replace docker packages
 # pushd feeds/packages/utils
@@ -35,14 +35,14 @@ popd
 # done
 # popd
 
-./scripts/feeds update packages
-./scripts/feeds install -a -p packages
+# ./scripts/feeds update packages
+# ./scripts/feeds install -a -p packages
 
 # fix UPX
 # https://github.com/DHDAXCW/openwrt-mix/issues/1
-pushd /workdir/openwrt/staging_dir/host/bin/
-[ -x ./upx ] || ln -sf `which upx` ./upx
-popd
+# pushd /workdir/openwrt/staging_dir/host/bin/
+# [ -x ./upx ] || ln -sf `which upx` ./upx
+# popd
 
 # fix NaiveProxy
 # pushd package/additional/small-package/
