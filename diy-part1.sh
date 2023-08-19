@@ -71,8 +71,8 @@ pushd package/additional
 # svn co https://github.com/immortalwrt/packages/trunk/net/pandownload-fake-server
 
 # BaiduPCS Web
-git clone https://github.com/KFERMercer/openwrt-baidupcs-web.git baidupcs-web
-git clone https://github.com/KFERMercer/luci-app-baidupcs-web.git
+# git clone https://github.com/KFERMercer/openwrt-baidupcs-web.git baidupcs-web
+# git clone https://github.com/KFERMercer/luci-app-baidupcs-web.git
 
 popd
 
