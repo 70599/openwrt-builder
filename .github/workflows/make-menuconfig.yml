@@ -59,11 +59,10 @@ jobs:
       with:
         repository: ${{ github.event.inputs.repo }}
         ref: ${{ github.event.inputs.ref }}
-        path: /workdir/openwrt
+        path: openwrt
 
     - name: Load custom feeds
       run: |
-        ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
         [ -e $FEEDS_CONF ] && cp -f $FEEDS_CONF openwrt/feeds.conf
         chmod +x $DIY_P1_SH
         cd openwrt
