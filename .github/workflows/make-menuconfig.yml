@@ -21,6 +21,10 @@ on:
         - immortalwrt/immortalwrt
         - coolsnowwolf/lede
         - friendlyarm/friendlywrt
+      ref:
+        description: 'branch or sha'
+        required: false
+        default: master
 
 env:
   REPO_URL: https://github.com/${{ github.event.inputs.repo }}
@@ -50,16 +54,13 @@ jobs:
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
 
-    - name: Clone source code
-      working-directory: /workdir
-      run: |
-        df -hT $PWD
-        BRANCH='master'
-        if [ ${{ github.event.inputs.repo }} == 'Lienol/openwrt' ]; then
-          BRANCH='22.03'
-        fi
-        git clone --depth 1 -b $BRANCH $REPO_URL openwrt
-        ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        repository: ${{ github.event.inputs.repo }}
+        ref: ${{ github.event.inputs.ref }}
+        fetch-depth: 0
+        path: openwrt
 
     - name: Load custom feeds
       run: |
