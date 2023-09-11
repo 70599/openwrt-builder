@@ -54,12 +54,11 @@ jobs:
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
 
-    - name: Checkout
-      uses: actions/checkout@v3
+    - name: Get source code
+      uses: actions/checkout@main
       with:
         repository: ${{ github.event.inputs.repo }}
         ref: ${{ github.event.inputs.ref }}
-        fetch-depth: 0
         path: openwrt
 
     - name: Load custom feeds
