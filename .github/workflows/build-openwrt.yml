@@ -115,6 +115,7 @@ jobs:
           --data chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
           --data text="<b>❌ [${{ github.event.inputs.target }}] 固件编译失败</b>" \
           --request POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage
+        df -h /
         echo status=success >> $GITHUB_OUTPUT
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
