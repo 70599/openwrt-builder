@@ -2,8 +2,6 @@ uci -q batch <<-EOF
 set system.@system[0].hostname='R4S'
 set system.@system[0].timezone='CST-8'
 set system.@system[0].zonename='Asia/Shanghai'
-set system.@imm_init[0].system_chn='1'
-set system.@imm_init[0].opkg_mirror='https://downloads.immortalwrt.org'
 del system.ntp.server
 add_list system.ntp.server='120.25.108.11'
 add_list system.ntp.server='120.25.115.20'
