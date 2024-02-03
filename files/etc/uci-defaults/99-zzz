@@ -28,7 +28,7 @@ commit dhcp
 EOF
 service dnsmasq restart
 
-uci set uhttpd.main.listen_http='88'
+uci set uhttpd.main.listen_http='80'
 uci commit uhttpd
 service uhttpd restart
 
