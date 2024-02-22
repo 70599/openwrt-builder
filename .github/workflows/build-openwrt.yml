@@ -31,7 +31,7 @@ on:
       ref:
         description: 'branch or sha'
         required: false
-        default: v23.05.1
+        default: master
       upload_bin_dir:
         type: boolean
         description: 'Upload bin dir'
