@@ -24,7 +24,8 @@ on:
       ref:
         description: 'branch or sha'
         required: false
-        default: v23.05.1
+        # default: v23.05.1
+        default: master
 
 env:
   REPO_URL: https://github.com/${{ github.event.inputs.repo }}
