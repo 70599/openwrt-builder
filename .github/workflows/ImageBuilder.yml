@@ -29,10 +29,16 @@ jobs:
         tar -I zstd -xf immortalwrt-imagebuilder-$VERSION-rockchip-armv8.Linux-x86_64.tar.zst
         mv immortalwrt-imagebuilder-$VERSION-rockchip-armv8.Linux-x86_64 imagebuilder
 
-    - name: Patch default IP and shell
+    - name: Add uci-defaults for IP and shell
       run: |
-        sed -i 's/192.168.1.1/10.10.1.1/g' imagebuilder/package/base-files/files/bin/config_generate
-        sed -i 's|/bin/ash|/usr/bin/fish|g' imagebuilder/package/base-files/files/etc/passwd
+        mkdir -p imagebuilder/files/etc/uci-defaults
+        cat <<EOF > imagebuilder/files/etc/uci-defaults/99-custom-settings
+        #!/bin/sh
+        uci set network.lan.ipaddr='10.10.1.1'
+        uci commit network
+        sed -i 's|/bin/ash|/usr/bin/fish|g' /etc/passwd
+        EOF
+        chmod +x imagebuilder/files/etc/uci-defaults/99-custom-settings
 
     - name: Restore build cache
       uses: actions/cache@v4
