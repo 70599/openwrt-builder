@@ -16,10 +16,10 @@ jobs:
         sudo bash -c 'bash <(curl -s https://build-scripts.immortalwrt.org/init_build_environment.sh)'
         sudo pip install pyelftools
 
-    - name: Get latest stable release version
+    - name: Get latest stable release version from GitHub tags
       id: get_version
       run: |
-        VERSION=$(curl -s https://downloads.immortalwrt.org/releases/releases.json | jq -r '.stable')
+        VERSION=$(curl -s "https://api.github.com/repos/immortalwrt/immortalwrt/tags" | jq -r '.[].name' | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+$' | sort -Vr | head -n 1 | sed 's/^v//')
         echo "VERSION=$VERSION" >> $GITHUB_ENV
 
     - name: Download and extract ImageBuilder
