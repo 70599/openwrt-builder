@@ -1,0 +1,82 @@
+cat << "EOF" > /etc/uci-defaults/99-init-foo
+#!/bin/sh
+
+# 设置主机名
+uci set system.@system[0].hostname='FOO'
+uci commit system
+hostname FOO
+
+# 设置 LAN IP 地址
+uci set network.lan.ipaddr='10.10.1.1'
+uci set network.lan.netmask='255.255.255.0'
+uci commit network
+
+# 设置 SSH 端口（Dropbear）
+uci set dropbear.@dropbear[0].Port='22333'
+uci commit dropbear
+
+# 重启受影响的服务（注意：首次启动时有些服务还未就绪）
+/etc/init.d/network restart
+/etc/init.d/dropbear restart
+
+exit 0
+EOF
+
+cat << "EOF" > /etc/uci-defaults/99-expand-tf
+#!/bin/sh
+
+# 获取当前根分区所在设备（例如 /dev/mmcblk0）
+ROOT_DEV=$(df / | tail -1 | awk '{print $1}' | sed 's/[0-9]*$//')
+
+# 遍历所有 mmcblk 设备
+for base_dev in /dev/mmcblk[0-9]; do
+    [ "$base_dev" = "$ROOT_DEV" ] && continue
+    [ -b "$base_dev" ] || continue
+
+    echo "🔍 检测到 TF 卡设备：$base_dev"
+
+    # 构建第 3 分区路径
+    PART="${base_dev}p3"
+    PART_LABEL=$(basename "$PART")
+    MOUNT_POINT="/mnt/$PART_LABEL"
+
+    # 如果分区已存在，跳过创建
+    if [ -b "$PART" ]; then
+        echo "⚠️ $PART 已存在，跳过创建分区"
+    else
+        echo "💾 创建新分区 $PART..."
+        parted -s "$base_dev" -- mkpart primary f2fs 100%
+        sleep 3
+    fi
+
+    # 格式化为 F2FS（如果未格式化）
+    FSTYPE=$(blkid -o value -s TYPE "$PART" 2>/dev/null)
+    if [ "$FSTYPE" != "f2fs" ]; then
+        echo "🧹 正在格式化 $PART 为 F2FS..."
+        mkfs.f2fs "$PART"
+    else
+        echo "✅ $PART 已格式化为 F2FS"
+    fi
+
+    # 创建挂载点
+    mkdir -p "$MOUNT_POINT"
+
+    # 添加 fstab 配置
+    uci add fstab mount
+    uci set fstab.@mount[-1].target="$MOUNT_POINT"
+    uci set fstab.@mount[-1].device="$PART"
+    uci set fstab.@mount[-1].fstype='f2fs'
+    uci set fstab.@mount[-1].enabled='1'
+    uci commit fstab
+
+    # 尝试立即挂载
+    echo "🚀 挂载 $PART 到 $MOUNT_POINT..."
+    mount "$MOUNT_POINT"
+
+    echo "✅ 完成：$PART → $MOUNT_POINT"
+    exit 0
+done
+
+echo "❌ 未找到非根 mmcblk 设备，未执行挂载"
+exit 0
+EOF
