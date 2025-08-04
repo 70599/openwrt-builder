@@ -78,8 +78,9 @@ jobs:
         [ -e $FEEDS_CONF ] && cp -f $FEEDS_CONF openwrt/feeds.conf
         chmod +x $DIY_P1_SH
         cd openwrt
-        mkdir -p /mnt/build_dir && ln -sf /mnt/build_dir ./
-        mkdir -p /mnt/staging_dir && ln -sf /mnt/staging_dir ./
+        sudo mkdir -p /mnt/{build_dir,staging_dir}
+        sudo chown runner:docker /mnt/{build_dir,staging_dir}
+        ln -s /mnt/{build_dir,staging_dir} ./
         $GITHUB_WORKSPACE/$DIY_P1_SH
 
     - name: Update feeds
