@@ -10,5 +10,12 @@ set fstab.@mount[-1].uuid='9287adce-9526-4249-a631-da08eaea8eb5'
 set fstab.@mount[-1].enabled='1'
 set fstab.@mount[-1].enabled_fsck='1'
 set fstab.@mount[-1].options='rw,noatime'
+add fstab mount
+set fstab.@mount[-1].target='/mnt/sda1'
+set fstab.@mount[-1].uuid='832fa74e-caf1-4873-a9d6-6033cd48e2a0'
+set fstab.@mount[-1].enabled='1'
+set fstab.@mount[-1].enabled_fsck='1'
+set fstab.@mount[-1].options='rw,noatime'
+commit fstab
 EOI
 EOF
