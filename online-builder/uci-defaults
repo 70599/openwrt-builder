@@ -3,5 +3,12 @@ uci -q batch << EOI
 set network.lan.ipaddr='10.10.1.1'
 set system.@system[0].hostname='R4S'
 set dropbear.@dropbear[0].Port='22333'
+
+add fstab mount
+set fstab.@mount[-1].target='/mnt/mmcblk1p3'
+set fstab.@mount[-1].uuid='9287adce-9526-4249-a631-da08eaea8eb5'
+set fstab.@mount[-1].enabled='1'
+set fstab.@mount[-1].enabled_fsck='1'
+set fstab.@mount[-1].options='rw,noatime'
 EOI
 EOF
