@@ -16,6 +16,7 @@ set fstab.@mount[-1].uuid='832fa74e-caf1-4873-a9d6-6033cd48e2a0'
 set fstab.@mount[-1].enabled='1'
 set fstab.@mount[-1].enabled_fsck='1'
 set fstab.@mount[-1].options='rw,noatime'
-commit fstab
+
+commit
 EOI
 EOF
