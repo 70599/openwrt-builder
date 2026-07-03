@@ -1,6 +1,6 @@
 cat << "EOF" > /etc/uci-defaults/99-custom
 uci -q batch << EOI
-set network.lan.ipaddr='10.10.1.1'
+set network.lan.ipaddr='10.10.1.1/24'
 set system.@system[0].hostname='R4S'
 set dropbear.@dropbear[0].Port='22333'
 
